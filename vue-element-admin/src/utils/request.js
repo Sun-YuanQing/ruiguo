@@ -38,23 +38,23 @@ service.interceptors.response.use(
   */
 
   /**
-   * Determine the request status by custom code
+   * Determine the request status by custom status
    * Here is just an example
-   * You can also judge the status by HTTP Status Code
+   * You can also judge the status by HTTP Status status
    */
   response => {
     const res = response.data
 
-    // if the custom code is not 20000, it is judged as an error.
-    if (res.code !== 20000) {
+    // if the custom status is not 20000, it is judged as an error.
+    if (res.status !== 200) {
       Message({
         message: res.message || 'Error',
         type: 'error',
-        duration: 5 * 1000
+        duration: 5 * 100
       })
 
       // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
-      if (res.code === 50008 || res.code === 50012 || res.code === 50014) {
+      if (res.status === 508 || res.status === 512 || res.status === 514) {
         // to re-login
         MessageBox.confirm('You have been logged out, you can cancel to stay on this page, or log in again', 'Confirm logout', {
           confirmButtonText: 'Re-Login',
@@ -76,7 +76,7 @@ service.interceptors.response.use(
     Message({
       message: error.message,
       type: 'error',
-      duration: 5 * 1000
+      duration: 5 * 100
     })
     return Promise.reject(error)
   }
