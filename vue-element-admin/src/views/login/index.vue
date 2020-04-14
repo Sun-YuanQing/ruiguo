@@ -84,7 +84,7 @@
 import { validUsername } from '@/utils/validate'
 import LangSelect from '@/components/LangSelect'
 import SocialSign from './components/SocialSignin'
-
+import user from '@/api/user.js';
 export default {
   name: 'Login',
   components: { LangSelect, SocialSign },
@@ -164,13 +164,16 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
-          this.$store.dispatch('user/login', this.loginForm)
-            .then(() => {
-              this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
-              this.loading = false
-            })
-            .catch(() => {
-              this.loading = false
+          var data = { user: 'admin', passwor: '123456' };
+          user.login(data).then(res => {
+                     var response=JSON.stringify(res)
+                     console.log(response)
+          		this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
+          		this.loading = false;
+
+              })
+              .catch(error => {
+              this.loading = false;
             })
         } else {
           console.log('error submit!!')
