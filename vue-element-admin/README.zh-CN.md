@@ -25,7 +25,7 @@
     <img src="https://img.shields.io/badge/%24-donate-ff69b4.svg" alt="donate">
   </a>
 </p>
-
+//取消锁定更改
 简体中文 | [English](./README.md) | [日本語](./README.ja.md) | [Spanish](./README.es.md)
 
 ## 简介
