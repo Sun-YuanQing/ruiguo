@@ -30,4 +30,10 @@ class Banner
 
         echo '46465464';
     }
+
+
+    public function add()
+    {
+        echo 'fdfds';
+    }
 }
