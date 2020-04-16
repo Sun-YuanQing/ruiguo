@@ -13,8 +13,15 @@
         <span class="svg-container">
           <svg-icon icon-class="user" />
         </span>
-        <el-input ref="username" v-model="loginForm.username" :placeholder="$t('login.username')" name="username" type="text"
-          tabindex="1" autocomplete="on" />
+        <el-input
+          ref="username"
+          v-model="loginForm.username"
+          :placeholder="$t('login.username')"
+          name="username"
+          type="text"
+          tabindex="1"
+          autocomplete="on"
+        />
       </el-form-item>
 
       <el-tooltip v-model="capsTooltip" content="Caps lock is On" placement="right" manual>
@@ -22,9 +29,19 @@
           <span class="svg-container">
             <svg-icon icon-class="password" />
           </span>
-          <el-input :key="passwordType" ref="password" v-model="loginForm.password" :type="passwordType" :placeholder="$t('login.password')"
-            name="password" tabindex="2" autocomplete="on" @keyup.native="checkCapslock" @blur="capsTooltip = false"
-            @keyup.enter.native="handleLogin" />
+          <el-input
+            :key="passwordType"
+            ref="password"
+            v-model="loginForm.password"
+            :type="passwordType"
+            :placeholder="$t('login.password')"
+            name="password"
+            tabindex="2"
+            autocomplete="on"
+            @keyup.native="checkCapslock"
+            @blur="capsTooltip = false"
+            @keyup.enter.native="handleLogin"
+          />
           <span class="show-pwd" @click="showPwd">
             <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
           </span>
@@ -64,142 +81,162 @@
 </template>
 
 <script>
-  import {
-    validUsername
-  } from '@/utils/validate'
-  import LangSelect from '@/components/LangSelect'
-  import SocialSign from './components/SocialSignin'
-  import user from '../../api/user.js'
-  import {
-    getToken,
-    setToken,
-    removeToken
-  } from '@/utils/auth'
-  import router, {
-    resetRouter
-  } from '@/router'
-  export default {
-    name: 'Login',
-    components: {
-      LangSelect,
-      SocialSign
-    },
-    data() {
-      const validateUsername = (rule, value, callback) => {
-        if (!validUsername(value)) {
-          callback(new Error('Please enter the correct user name'))
-        } else {
-          callback()
-        }
-      }
-      const validatePassword = (rule, value, callback) => {
-        if (value.length < 6) {
-          callback(new Error('The password can not be less than 6 digits'))
-        } else {
-          callback()
-        }
-      }
-      return {
-        loginForm: {
-          username: 'admin',
-          password: '111111'
-        },
-        loginRules: {
-          username: [{
-            required: true,
-            trigger: 'blur',
-            validator: validateUsername
-          }],
-          password: [{
-            required: true,
-            trigger: 'blur',
-            validator: validatePassword
-          }]
-        },
-        passwordType: 'password',
-        capsTooltip: false,
-        loading: false,
-        showDialog: false,
-        redirect: undefined,
-        otherQuery: {}
-      }
-    },
-    watch: {
-      $route: {
-        handler: function(route) {
-          const query = route.query
-          if (query) {
-            this.redirect = query.redirect
-            this.otherQuery = this.getOtherQuery(query)
-          }
-        },
-        immediate: true
-      }
-    },
-    created() {
-      // window.addEventListener('storage', this.afterQRScan)
-    },
-    mounted() {
-      if (this.loginForm.username === '') {
-        this.$refs.username.focus()
-      } else if (this.loginForm.password === '') {
-        this.$refs.password.focus()
-      }
-    },
-    destroyed() {
-      // window.removeEventListener('storage', this.afterQRScan)
-    },
-    methods: {
-      checkCapslock(e) {
-        const {
-          key
-        } = e
-        this.capsTooltip = key && key.length === 1 && (key >= 'A' && key <= 'Z')
-      },
-      showPwd() {
-        if (this.passwordType === 'password') {
-          this.passwordType = ''
-        } else {
-          this.passwordType = 'password'
-        }
-        this.$nextTick(() => {
-          this.$refs.password.focus()
-        })
-      },
-      handleLogin() {
-        this.$refs.loginForm.validate(valid => {
-          if (valid) {
-            this.loading = true
-            this.$store.dispatch('user/login', this.loginForm)
-              .then(res => {
-                console.log(res);
-                this.$router.push({
-                  path: this.redirect || '/',
-                  query: this.otherQuery
-                }) 
-                this.loading = false
-              })
-              .catch(error=> {
-                 console.log(error);
-                this.loading = false
-              })
-          } else {
-            console.log('error submit!!')
-            return false
-          }
-        })
-
-      },
-      getOtherQuery(query) {
-        return Object.keys(query).reduce((acc, cur) => {
-          if (cur !== 'redirect') {
-            acc[cur] = query[cur]
-          }
-          return acc
-        }, {})
+import {
+  validUsername
+} from '@/utils/validate'
+import LangSelect from '@/components/LangSelect'
+import SocialSign from './components/SocialSignin'
+import user from '../../api/user.js'
+import axios from 'axios'
+import {
+  getToken,
+  setToken,
+  removeToken
+} from '@/utils/auth'
+import router, {
+  resetRouter
+} from '@/router'
+export default {
+  name: 'Login',
+  components: {
+    LangSelect,
+    SocialSign
+  },
+  data() {
+    const validateUsername = (rule, value, callback) => {
+      if (!validUsername(value)) {
+        callback(new Error('Please enter the correct user name'))
+      } else {
+        callback()
       }
     }
+    const validatePassword = (rule, value, callback) => {
+      if (value.length < 6) {
+        callback(new Error('The password can not be less than 6 digits'))
+      } else {
+        callback()
+      }
+    }
+    return {
+      loginForm: {
+        username: 'admin',
+        password: 'admin123'
+      },
+      loginRules: {
+        username: [{
+          required: true,
+          trigger: 'blur',
+          validator: validateUsername
+        }],
+        password: [{
+          required: true,
+          trigger: 'blur',
+          validator: validatePassword
+        }]
+      },
+      passwordType: 'password',
+      capsTooltip: false,
+      loading: false,
+      showDialog: false,
+      redirect: undefined,
+      otherQuery: {}
+    }
+  },
+  watch: {
+    $route: {
+      handler: function(route) {
+        const query = route.query
+        if (query) {
+          this.redirect = query.redirect
+          this.otherQuery = this.getOtherQuery(query)
+        }
+      },
+      immediate: true
+    }
+  },
+  created() {
+    // window.addEventListener('storage', this.afterQRScan)
+  },
+  mounted() {
+    if (this.loginForm.username === '') {
+      this.$refs.username.focus()
+    } else if (this.loginForm.password === '') {
+      this.$refs.password.focus()
+    }
+  },
+  destroyed() {
+    // window.removeEventListener('storage', this.afterQRScan)
+  },
+  methods: {
+    checkCapslock(e) {
+      const {
+        key
+      } = e
+      this.capsTooltip = key && key.length === 1 && (key >= 'A' && key <= 'Z')
+    },
+    showPwd() {
+      if (this.passwordType === 'password') {
+        this.passwordType = ''
+      } else {
+        this.passwordType = 'password'
+      }
+      this.$nextTick(() => {
+        this.$refs.password.focus()
+      })
+    },
+    handleLogin() {
+      this.$refs.loginForm.validate(valid => {
+        if (valid) {
+          this.loading = true
+          this.$store.dispatch('user/login', this.loginForm)
+            .then(res => {
+              console.log(res)
+              this.$router.push({
+                path: this.redirect || '/',
+                query: this.otherQuery
+              })
+              this.loading = false
+            })
+            .catch(error => {
+              console.log(error)
+              this.loading = false
+            })
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+      // axios({
+      //     method: 'post',
+      //     url: 'http://ruiguo.ruiguohealth.com/index.php/api/v1/login/login',
+      //     data: {
+      //       username: "admin",
+      //       password: "123456"
+      //     }
+      //   }) //使用axios根据地址把data的数组值根据post进行传输，this.admin和this.password是定义<input v-model="admin">获取
+      //   .then(function(response) { //成功400或401 执行。
+      //     //$this.dd = response.data;//获取后台数据
+      //     //console.log(response.data.access_token);
+      //     console.log(response)
+      //     //localStorage.setItem('token', response.data.access_token); //本地存储token值
+      //     //window.location.href = "../index/index.html"; //跳转页面
+      //   })
+      //   .catch(function(error) {
+
+      //     console.log(error);
+
+      //   });
+    },
+    getOtherQuery(query) {
+      return Object.keys(query).reduce((acc, cur) => {
+        if (cur !== 'redirect') {
+          acc[cur] = query[cur]
+        }
+        return acc
+      }, {})
+    }
   }
+}
 </script>
 
 <style lang="scss">

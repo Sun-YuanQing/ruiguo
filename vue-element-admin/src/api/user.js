@@ -5,21 +5,21 @@ export function login(data) {
   return request({
     url: '/login/login',
     method: 'post',
-    params:data
+    // params:data,
+    data
   })
 }
-
-export function getInfo(token) {
+export function getInfo() {
   return request({
-    url: '/vue-element-admin/user/info',
-    method: 'get',
-    params: { token }
+    url: '/login/adopt',
+    method: 'get'
+    // params: { token }
   })
 }
 
 export function logout() {
   return request({
-    url: '/vue-element-admin/user/logout',
-    method: 'post'
+    url: '/login/sign_out',
+    method: 'get'
   })
 }
