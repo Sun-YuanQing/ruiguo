@@ -14,20 +14,19 @@
       </el-button>
 
     </div>
-    <el-table :key="tableKey" v-loading="listLoading" :data="list" border fit highlight-current-row style="width: 100%;"
+    <el-table :key="tableKey" v-loading="listLoading" :data="list" border fit highlight-current-row style="width: 100%;margin-top:30px;"
       @sort-change="sortChange">
-      <el-table-column label="ID" width="80" align="center">
+      <el-table-column label="ID" align="center" width="80">
         <template slot-scope="{row}">
           <span>{{ row.admin_user_id }}</span>
         </template>
       </el-table-column>
-
-      <el-table-column label="用户名称" width="110px" align="center">
+      <el-table-column label="用户名称" align="center" width="230">
         <template slot-scope="{row}">
           <span>{{ row.user_name }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="账号" width="110px" align="center">
+      <el-table-column label="账号" align="center" width="230">
         <template slot-scope="{row}">
           <span>{{ row.user_account }}</span>
         </template>
@@ -38,34 +37,27 @@
         </template>
       </el-table-column>
 
-      <el-table-column :label="$t('table.actions')" align="center" width="300" class-name="small-padding fixed-width">
+      <el-table-column :label="$t('table.actions')" align="center" class-name="small-padding fixed-width">
         <template slot-scope="{row,$index}">
-
           <el-button type="primary" size="mini" @click="handleUpdate(row)">
-            {{ $t('table.edit') }}
+            修改
           </el-button>
-          <el-button v-if="row.status!='published'" size="mini" type="success" @click="handleModifyStatus(row,'published')">
-            {{ $t('table.publish') }}
-          </el-button>
-          <el-button v-if="row.status!='draft'" size="mini" @click="handleModifyStatus(row,'draft')">
-            {{ $t('table.draft') }}
+          <el-button size="mini" type="success" @click="onEditPermission(row)">
+            权限
           </el-button>
           <el-button v-if="row.status!='deleted'" size="mini" type="danger" @click="handleDelete(row,$index)">
-            {{ $t('table.delete') }}
+            删除
           </el-button>
         </template>
       </el-table-column>
     </el-table>
 
     <el-dialog title="添加用户" :visible.sync="dialogFormVisible">
-      <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
-        <el-form-item label="图片">
-          <el-input v-model="temp.images" />
-        </el-form-item>
+      <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="70px" style="width: 50%; margin-left:50px;">
         <el-form-item label="排序" prop="title">
           <el-input v-model="temp.sort" />
         </el-form-item>
-        <el-form-item label="用户名称" prop="title" style="width: 25rem;">
+        <el-form-item label="用户名称" prop="title" style="width: 50%;" width="50%">
           <el-input v-model="temp.user_name" />
         </el-form-item>
         <el-form-item label="用户账号" prop="title">
@@ -86,38 +78,20 @@
     </el-dialog>
 
 
-    <pagination v-show="total>0" :total="total" :page.sync="temp.page" :limit.sync="temp.limit" @pagination="getList" />
+    <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
 
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-      <div class="components-container">
+      <el-upload class="avatar-uploader" action="upload" :headers="{'Content-Type':'multipart/form-data'}"
+        :show-file-list="false" :auto-upload="true" :http-request="uploadFile" :on-success="handleAvatarSuccess"
+        :before-upload="beforeAvatarUpload">
+        <div class="components-container">
+            上传图片
+          <pan-thumb :image="imageUrl||'http://ruiguo.ruiguohealth.com/api/Upload/TemPoraryFile/adminuser/images/20200417/1710a79acaa46fab592da4d2d6434693.jpg'" />
+        </div>
+      </el-upload>
+      <el-form ref="formData" :rules="rules" :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
 
-        <pan-thumb :image="image" />
-
-        <el-button type="primary" icon="el-icon-upload" style="position: absolute;bottom: 15px;margin-left: 40px;" @click="imagecropperShow=true">
-          Change Avatar
-        </el-button>
-
-        <image-cropper v-show="imagecropperShow" :key="imagecropperKey" :width="300" :height="300" url="https://httpbin.org/post"
-          lang-type="en" @close="close" @crop-upload-success="cropSuccess" />
-          <el-upload
-            class="avatar-uploader"
-            action="upload"
-            :headers="{'Content-Type':'multipart/form-data'}"
-            :show-file-list="false"
-            :auto-upload = "true"
-            :http-request="uploadFile"
-            :on-success="handleAvatarSuccess"
-            :before-upload="beforeAvatarUpload">
-            <img v-if="imageUrl" :src="imageUrl" class="avatar">
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-          </el-upload>
-      </div>
-      <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
-
-        <el-form-item label="图片">
-          <el-input v-model="temp.images" />
-        </el-form-item>
-        <el-form-item label="排序" prop="title">
+        <el-form-item label="排序" prop="title" >
           <el-input v-model="temp.sort" />
         </el-form-item>
         <el-form-item label="用户名称" prop="title" style="width: 25rem;">
@@ -129,7 +103,11 @@
         <el-form-item label="密码" prop="title">
           <el-input ref="password" v-model="temp.user_password" type="password" placeholder="请输入密码" name="password" />
         </el-form-item>
-
+        <el-form-item label="状态" prop="type">
+          <el-select v-model="temp.status" class="filter-item" placeholder="Please select">
+            <el-option v-for="item in calendarTypeOptions" :key="item.key" :label="item.display_name" :value="item.key" />
+          </el-select>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">
@@ -140,8 +118,30 @@
         </el-button>
       </div>
     </el-dialog>
-
-
+    <!-- 权限 -->
+    <!-- <el-dialog :visible.sync="dialogVisible" :title="dialogType==='edit'?'Edit Role':'New Role'">
+      <el-form :model="role" label-width="80px" label-position="left">
+        <el-form-item label="Name">
+          <el-input v-model="role.name" placeholder="Role Name" />
+        </el-form-item>
+        <el-form-item label="Desc">
+          <el-input v-model="role.description" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="Role Description" />
+        </el-form-item>
+        <el-form-item label="Menus">
+          <el-tree ref="tree" :check-strictly="checkStrictly" :data="routesData" :props="defaultProps" show-checkbox
+            node-key="path" class="permission-tree" />
+        </el-form-item>
+      </el-form>
+      <div style="text-align:right;">
+        <el-button type="danger" @click="dialogVisible=false">
+         取消
+        </el-button>
+        <el-button type="primary" @click="confirmRole">
+         确定
+        </el-button>
+      </div>
+    </el-dialog>
+ -->
   </div>
 </template>
 
@@ -160,32 +160,25 @@
   import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 
 
-import ImageCropper from '@/components/ImageCropper'
-import PanThumb from '@/components/PanThumb'
+  import ImageCropper from '@/components/ImageCropper'
+  import PanThumb from '@/components/PanThumb'
 
 
-import axios from 'axios'
+  import axios from 'axios'
   const calendarTypeOptions = [{
-      key: 'CN',
-      display_name: 'China'
+      key: '1',
+      display_name: '启用'
     },
     {
-      key: 'US',
-      display_name: 'USA'
-    },
-    {
-      key: 'JP',
-      display_name: 'Japan'
-    },
-    {
-      key: 'EU',
-      display_name: 'Eurozone'
+      key: '2',
+      display_name: '禁用'
     }
   ]
 
   // arr to obj, such as { CN : "China", US : "USA" }
   const calendarTypeKeyValue = calendarTypeOptions.reduce((acc, cur) => {
     acc[cur.key] = cur.display_name
+    console.log(acc, cur)
     return acc
   }, {})
 
@@ -217,10 +210,11 @@ import axios from 'axios'
         imagecropperShow: false,
         imagecropperKey: 0,
         image: 'https://wpimg.wallstcn.com/577965b9-bb9e-4e02-9f0c-095b41417191',
-
-
-       isImage:null,
-
+        isImage: null,
+        imageUrl: 'https://wpimg.wallstcn.com/577965b9-bb9e-4e02-9f0c-095b41417191',
+        dialogVisible: '',
+        calendarTypeOptions,
+        calendarTypeKeyValue,
         tableKey: 0,
         list: null,
         total: 1,
@@ -231,20 +225,19 @@ import axios from 'axios'
           importance: undefined,
           title: undefined,
           type: undefined,
-          sort: '+id'
+          sort: ''
         },
         userlist: {
           page: 1,
           limit: 20,
           user_name: "",
           user_account: "",
-          sort: "+id",
+          sort: "",
           importance: undefined,
           title: undefined,
           type: undefined
         },
         importanceOptions: [1, 2, 3],
-        calendarTypeOptions,
         sortOptions: [{
           label: 'ID Ascending',
           key: '+id'
@@ -265,7 +258,7 @@ import axios from 'axios'
           limit: 20,
           user_name: "",
           user_account: "",
-          sort: "+id",
+          sort: "",
           importance: undefined,
           title: undefined,
           type: undefined
@@ -351,45 +344,34 @@ import axios from 'axios'
       },
       sortByID(order) {
         if (order === 'ascending') {
-          this.listQuery.sort = '+id'
+          this.listQuery.sort = ''
         } else {
-          this.listQuery.sort = '-id'
+          this.listQuery.sort = ''
         }
         this.handleFilter()
       },
       resetTemp() {
         this.temp = {
-          id: undefined,
-          importance: 1,
-          remark: '',
+
           user_name: "",
           status: 1,
           sort: "",
           user_account: "",
           user_password: "",
           images: "",
-          page: 1,
-          limit: 20,
-          user_name: "",
-          user_account: "",
-          sort: "+id",
-          importance: undefined,
-          title: undefined,
-          type: undefined
         }
       },
       onAddUser() {
-        // this.resetTemp()
+        this.resetTemp()
         this.dialogStatus = 'create'
         this.dialogFormVisible = true,
-          this.temp = {
 
-          }
-        this.$nextTick(() => {
-          this.$refs['dataForm'].clearValidate()
-        })
+          this.$nextTick(() => {
+            this.$refs['dataForm'].clearValidate()
+          })
       },
       createData() {
+        var that = this
         var data = this.temp;
         console.log(data);
         users.createUser(data)
@@ -399,6 +381,7 @@ import axios from 'axios'
             console.log(response)
             that.list = response.data.items;
             that.listLoading = false;
+            that.dialogFormVisible = false;
           })
           .catch(function(error) {
             console.log(error);
@@ -407,40 +390,51 @@ import axios from 'axios'
       handleUpdate(row) {
         this.temp = Object.assign({}, row) // copy obj
         console.log(row);
-        this.temp.timestamp = new Date(this.temp.timestamp)
         this.dialogStatus = 'update'
         this.dialogFormVisible = true
+
         this.$nextTick(() => {
           this.$refs['dataForm'].clearValidate()
         })
       },
       updateData() {
-        this.$refs['dataForm'].validate((valid) => {
+        var that = this;
+        that.$refs['dataForm'].validate((valid) => {
           if (valid) {
-            const tempData = Object.assign({}, this.temp)
-            tempData.timestamp = +new Date(tempData.timestamp) // change Thu Nov 30 2017 16:41:05 GMT+0800 (CST) to 1512031311464
-            updateArticle(tempData).then(() => {
-              const index = this.list.findIndex(v => v.id === this.temp.id)
-              this.list.splice(index, 1, this.temp)
-              this.dialogFormVisible = false
-              this.$notify({
-                title: '成功',
-                message: '更新成功',
-                type: 'success',
-                duration: 2000
+            const tempData = Object.assign({}, that.temp)
+            users.userEdit(tempData)
+              .then(function(response) {
+                console.log(response)
+                that.getList()
+                that.dialogFormVisible = false
               })
-            })
+              .catch(function(error) {
+                console.log(error);
+              });
+
           }
         })
       },
       handleDelete(row, index) {
-        this.$notify({
-          title: '成功',
-          message: '删除成功',
-          type: 'success',
-          duration: 2000
+       // console.log(row,index);
+        var that =this;
+        var data={admin_user_id:row.admin_user_id};
+   
+        users.userDelete(data)
+        .then(function(response) {
+          console.log(response)
+          that.$notify({
+            title: '成功',
+            message: '删除成功',
+            type: 'success',
+            duration: 2000
+          })
+          that.list.splice(index, 1)
         })
-        this.list.splice(index, 1)
+        .catch(function(error) {
+          console.log(error);
+        });
+
       },
       handleFetchPv(pv) {
         fetchPv(pv).then(response => {
@@ -476,6 +470,7 @@ import axios from 'axios'
         return sort === `+${key}` ? 'ascending' : 'descending'
       },
       cropSuccess(resData) {
+        console.log(resData)
         this.imagecropperShow = false
         this.imagecropperKey = this.imagecropperKey + 1
         this.image = resData.files.avatar
@@ -484,48 +479,70 @@ import axios from 'axios'
         this.imagecropperShow = false
       },
       //自定义上传图片
-      uploadFile(params){
-      	let file = params.file
-      	let imageType = file.type
-        let isImage=null;
-      	if(imageType != 'image/jpeg' && imageType != 'image/jpg' && imageType != 'image/png'){
-      		 isImage = false
-      	}else{
-      		 isImage = true
-      	}
-      	let isLt2M = file.size / 1024 / 1024 < 2
-      	if (!isImage) {
-      		this.open('上传头像图片只能是 JPG/PNG/JPEG 格式!')
-      		return
-      	}
-      	if (!isLt2M) {
-      		this.open('图片最大不能超过2M!')
-      		return
-      	}
-      //	let formData = new FormData()
-      	//formData.append('file',file)
-        var formData={
-          type:"image",
-          filename:file,
-          mode:"adminuser"
-
+      uploadFile(params) {
+        var that = this;
+        let file = params.file
+        let imageType = file.type
+        let isImage = null;
+        if (imageType != 'image/jpeg' && imageType != 'image/jpg' && imageType != 'image/png') {
+          isImage = false
+        } else {
+          isImage = true
         }
-      	axios({
-      		url:"http://ruiguo.ruiguohealth.com/api/public/index.php/api/v1/upload/mono_file",
-      		method:'post',
-      		data:formData,
-      	    headers: {
-      	      'Content-Type':'multipart/form-data'
-      	    }
-      	}).then(response=>{
-      		if(response.data.code == 0){
-      			this.open(response.data.msg)
-      		}else{
-      			this.imageUrl = response.data.data.img
-      		}
-      	})
+        let isLt2M = file.size / 1024 / 1024 < 2
+        if (!isImage) {
+          this.open('上传头像图片只能是 JPG/PNG/JPEG 格式!')
+          return
+        }
+        if (!isLt2M) {
+          this.open('图片最大不能超过2M!')
+          return
+        }
+        let formData = new FormData()
+        formData.append('file', file)
+        formData.append('type', 'images')
+        formData.append('filename', 'file')
+        formData.append('mode', 'adminuser')
+        formData.type = "images"
+        formData.filename = "file"
+        formData.mode = "adminuser"
 
-      }//原文链接：https://blog.csdn.net/weixin_43864139/java/article/details/102711808
+        axios({
+          url: 'http://ruiguo.ruiguohealth.com/api/public/index.php/api/v1/upload/mono_file',
+          method: 'post',
+          data: formData,
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }).then(response => {
+          if (response.data.code == 0) {
+            that.open(response.data.msg)
+          } else {
+            that.image = response.data.data.img_whole;
+            that.imageUrl = response.data.data.img_whole;
+            //that.temp.status= thatcalendarTypeKeyValue;
+            that.temp.images = response.data.data.img_paths;
+          }
+        })
+
+      },
+      handleAvatarSuccess() {
+        console.log("handleAvatarSuccess")
+      },
+      beforeAvatarUpload() {
+        console.log("beforeAvatarUpload")
+      },
+      // 权限
+      onEditPermission(row) {
+        console.log(row)
+      }
     }
   }
 </script>
+<style>
+  .pan-item {
+    width: 50%;
+    height: 100rem;
+    border-radius: 50%;
+  }
+</style>
