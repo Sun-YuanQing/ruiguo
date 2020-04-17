@@ -23,8 +23,9 @@ module.exports = {
    * then publicPath should be set to "/bar/".
    * In most cases please use '/' !!!
    * Detail: https://cli.vuejs.org/config/#publicpath
+   * 发布的路径publicPath改成'.'
    */
-  publicPath: './',
+  publicPath: '.',
   outputDir: 'dist',
   assetsDir: 'static',
   lintOnSave: process.env.NODE_ENV === 'development',

@@ -23,6 +23,7 @@ export default {
     ])
   },
   created() {
+    //admin和editor看到的界面不一样
     if (!this.roles.includes('admin')) {
       this.currentRole = 'editorDashboard'
     }

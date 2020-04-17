@@ -5,7 +5,8 @@ Vue.use(Router)
 
 /* Layout */
 import Layout from '@/layout'
-
+import users from './modules/users'
+import componentsRouter from './modules/components.js'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -34,6 +35,8 @@ import Layout from '@/layout'
  * all roles can be accessed
  */
 export const constantRoutes = [
+  componentsRouter,
+  users,
   {
     path: '/redirect',
     component: Layout,
@@ -78,7 +81,7 @@ export const constantRoutes = [
       }
     ]
   },
- 
+
 ]
 
 /**
@@ -98,7 +101,7 @@ export const asyncRoutes = [
       roles: ['admin00', 'editor00'] // you can set roles in root nav
     },
     children: [
-      { 
+      {
         path: 'page',
         component: () => import('@/views/permission/page'),
         name: 'PagePermission',
@@ -155,7 +158,7 @@ export const asyncRoutes = [
   },
 
 
- 
+
   {
     path: '/i18n',
     component: Layout,
