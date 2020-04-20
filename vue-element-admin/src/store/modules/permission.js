@@ -65,7 +65,7 @@ const mutations = {
  */
 export function generaMenu(routes, data) {
   data.forEach(item => {
-debugger
+
     const menu = {
       path: item.path,
       component: item.component === '#' ? Layout : item.component,
@@ -102,7 +102,7 @@ const actions = {
             path: '/i18n',
             component: Layout,
            // hidden: true,
-            name: 'I18n',
+            name: 'i18n',
             meta: {
               title: 'i18n',
               icon: 'international',
@@ -111,7 +111,7 @@ const actions = {
             children: [{
               path: 'index',
               component: () => import('@/views/i18n-demo/index'),
-              name: 'I18n',
+              name: 'i18n',
               meta: {
                 title: 'i18n',
                 icon: 'international'

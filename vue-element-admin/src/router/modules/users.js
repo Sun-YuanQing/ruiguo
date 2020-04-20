@@ -16,7 +16,7 @@ const tableRouter = {
       path: 'userlist',
       component: () => import('@/views/users/userlist'),
       name: 'ComplexTable',
-      meta: { title: 'complexTable' }
+      meta: { title: 'complexTable' ,affix: true }
     }
   ]
 }
