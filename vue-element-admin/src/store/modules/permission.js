@@ -1,5 +1,7 @@
 import { asyncRoutes, constantRoutes } from '@/router'
 import { asyncServeRoutes, constantServeRoutes } from '@/router/serveRouter'
+import {listRoutes} from '@/api/user.js'
+
 //throw new Error（‘出错了‘）
 /**
  * Use meta.role to determine if the current user has permission
@@ -50,12 +52,17 @@ const mutations = {
 const actions = {
   generateRoutes({ commit }, roles) {
     return new Promise(resolve => {
-      let accessedRoutes
-      if (roles.includes('admin_1')) {
-        accessedRoutes = asyncRoutes || []
-      } else {
-        accessedRoutes = filterAsyncRoutes(asyncServeRoutes, roles)
-      }
+      let accessedRoutes =null;
+      // listRoutes().then(function(response) {
+      //     console.log(response);
+
+      //   })
+      //   .catch(function(error) {
+      //     console.log(error);
+      //   });
+
+        accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
+
       commit('SET_ROUTES', accessedRoutes)
       resolve(accessedRoutes)
     })
