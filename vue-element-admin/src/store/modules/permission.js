@@ -53,18 +53,20 @@ const actions = {
   generateRoutes({ commit }, roles) {
     return new Promise(resolve => {
       let accessedRoutes =null;
-      // listRoutes().then(function(response) {
-      //     console.log(response);
+       var listRoutes00=null;
+      listRoutes().then(function(response) {
+          console.log(response);
+           listRoutes00=[];
+          accessedRoutes = filterAsyncRoutes(listRoutes00, roles)
 
-      //   })
-      //   .catch(function(error) {
-      //     console.log(error);
-      //   });
+          commit('SET_ROUTES', accessedRoutes)
+          resolve(accessedRoutes)
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
 
-        accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
 
-      commit('SET_ROUTES', accessedRoutes)
-      resolve(accessedRoutes)
     })
   }
 }

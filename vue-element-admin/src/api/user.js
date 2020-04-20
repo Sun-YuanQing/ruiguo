@@ -1,4 +1,3 @@
-
 import request from '@/utils/request'
 
 export function login(data) {
@@ -24,20 +23,23 @@ export function logout() {
   })
 }
 
-export function  addRoutes(data) {
-    return request({
-      url: '/menu/add',
-      method: 'post',
-      data
-    })
-  }
-  
-export function  listRoutes() {
-    return request({
-      url: '/menu/lists',
-      method: 'get'
-    })
-  }
+export function addRoutes(data) {
+  return request({
+    url: '/menu/add',
+    method: 'post',
+    data
+  })
+}
 
-
-
+export function listRoutes() {
+  return request({
+    url: '/menu/lists',
+    method: 'get'
+  })
+}
+export function getAuthMenu() {
+  return request({
+    url: '/menu/lists',
+    method: 'get'
+  })
+}
