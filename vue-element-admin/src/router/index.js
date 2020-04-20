@@ -81,20 +81,8 @@ export const constantRoutes = [
       }
     ]
   },
- 
-  // {
-  //   path: '/',
-  //   component: Layout,
-  //   redirect: '/dashboard',
-  //   children: [
-  //     {
-  //       path: 'dashboard',
-  //       component: () => import('@/views/dashboard/index'),
-  //       name: 'Dashboard',
-  //       meta: { title: 'dashboard', icon: 'dashboard', affix: true }
-  //     }
-  //   ]
-  // },
+
+
 
    { path: '*', redirect: '/404', hidden: true }
 ]
@@ -103,10 +91,7 @@ export const constantRoutes = [
  * asyncRoutes
  * the routes that need to be dynamically loaded based on user roles
  */
-export const asyncRoutes = [
-
-
-]
+export const asyncRoutes = [];
 
 const createRouter = () => new Router({
   // mode: 'history', // require service support
