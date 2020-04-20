@@ -30,11 +30,11 @@ import users from './modules/users'
  */
 
 /**
- * constantRoutes
+ * constantServeRoutes
  * a base page that does not have permission requirements
  * all roles can be accessed
  */
-export const constantRoutes = [
+export const constantServeRoutes = [
   //componentsRouter,
   users,
   {
@@ -85,10 +85,10 @@ export const constantRoutes = [
 ]
 
 /**
- * asyncRoutes
+ * asyncServeRoutes
  * the routes that need to be dynamically loaded based on user roles
  */
-export const asyncRoutes = [
+export const asyncServeRoutes = [
   {
     path: '/permission',
     component: Layout,
@@ -98,7 +98,7 @@ export const asyncRoutes = [
     meta: {
       title: 'permission',
       icon: 'lock',
-      roles: ['00admin', '00editor'] // you can set roles in root nav
+      roles: ['admin', '00editor'] // you can set roles in root nav
     },
     children: [
       {
@@ -107,7 +107,7 @@ export const asyncRoutes = [
         name: 'PagePermission',
         meta: {
           title: 'pagePermission',
-          roles: ['admin00'] // or you can only set roles in sub nav
+          roles: ['admin'] // or you can only set roles in sub nav
         }
       },
       {
@@ -140,7 +140,7 @@ export const asyncRoutes = [
     meta: {
       title: 'errorPages',
       icon: '404',
-      roles: ['00admin', '00editor']
+      roles: ['00admin', 'editor']
     },
     children: [
       {
@@ -179,7 +179,7 @@ export const asyncRoutes = [
 const createRouter = () => new Router({
   // mode: 'history', // require service support
   scrollBehavior: () => ({ y: 0 }),
-  routes: constantRoutes
+  routes: constantServeRoutes
 })
 
 const router = createRouter()
