@@ -101,14 +101,16 @@
             <el-button type="text" size="mini" @click="() => append({id:-1})">
               添加
             </el-button>
-            <el-tree :data="treeData" show-checkbox node-key="id" default-expand-all :expand-on-click-node="false" :props="defaultProps">
+            <el-tree :data="treeData" show-checkbox node-key="id" default-expand-all :expand-on-click-node="false"
+              :props="defaultProps">
               <span class="custom-tree-node" slot-scope="{ node, data }">
                 <span>{{ node.label }}</span>
                 <span>
-                  <el-button type="text" size="mini" v-if="(data.meta && data.path && !data.children)  " @click="() => append(data,addroles=false)">
+                  <el-button type="text" size="mini" v-if="(data.meta && data.path && !data.children) || !data.addroles  "
+                    @click="() => append(data,addroles=false)">
                     添加菜单
                   </el-button>
-                  <el-button type="text" size="mini" v-if="!(data.children || data.addroles)" @click="() => append(data,addroles=true)">
+                  <el-button type="text" size="mini" v-if="(!data.meta &&  !data.children) || data.addroles" @click="() => append(data,addroles=true)">
                     添加权限
                   </el-button>
                   <el-button type="text" size="mini" @click="() => remove(node, data)">
@@ -131,7 +133,8 @@
       <!-- 创建菜单 -->
       <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
 
-        <el-form ref="formMenu" :visible.sync="showMenu"  :rules="rules" :model="menuItmen" label-position="left" label-width="70px" style="width: 100%; margin-left:50px;">
+        <el-form ref="formMenu" :visible.sync="showMenu" :rules="rules" :model="menuItmen" label-position="left"
+          label-width="70px" style="width: 100%; margin-left:50px;">
 
           <el-form-item label="用户名称" style="width:60%">
             <el-input v-model="temp.user_name" />
@@ -143,7 +146,8 @@
             </el-tooltip>
           </el-form-item>
         </el-form>
-        <el-form ref="formMenu" :visible.sync="showMenuRole" :rules="rules" :model="menuItmen" label-position="left" label-width="70px" style="width: 100%; margin-left:50px;">
+        <el-form ref="formMenu" :visible.sync="showMenuRole" :rules="rules" :model="menuItmen" label-position="left"
+          label-width="70px" style="width: 100%; margin-left:50px;">
 
           <el-form-item label="用户名称" style="width:60%">
             <el-input v-model="temp.user_name" />
@@ -169,6 +173,7 @@
 
 <script>
   import users from '@/api/users.js';
+  import routes from '@/api/routes.js';
   import {
     fetchList,
     fetchPv,
@@ -206,49 +211,52 @@
           children: 'children',
           label: 'name'
         },
-        treeData: [
-          {
-          id:1,
+        treeData: [{
+          id: 1,
           path: '/components',
           component: "Layout",
           redirect: '/',
           alwaysShow: true,
           hidden: false, //true
           name: 'ComponentDemo',
-          addroles:true,
+          addroles: true,
           meta: {
             title: 'ComponentDemo', //i18n
             icon: 'international', //international、、lock
-            noCache: true ,       //忘了是什么先加着
-            affix: false,          //可以被删除标签
-            roles:["admin"]
+            noCache: true, //忘了是什么先加着
+            affix: false, //可以被删除标签
+            roles: ["admin"]
           },
-          children: [
-            {
-               id:2,
+          children: [{
+              id: 2,
               path: 'tinymce',
               component: '@/views/components-demo/tinymce',
               name: 'TinymceDemo',
-              meta: { title: 'tinymce' }
+              meta: {
+                title: 'tinymce'
+              }
             },
             {
-              id:3,
+              id: 3,
               path: 'markdown',
               component: '@/views/components-demo/markdown',
               name: 'MarkdownDemo',
-              meta: { title: 'markdown' }
+              meta: {
+                title: 'markdown'
+              }
             },
             {
-              id:4,
+              id: 4,
               path: 'json-editor',
               component: '@/views/components-demo/json-editor',
               name: 'JsonEditorDemo',
-              meta: { title: 'jsonEditor' }
+              meta: {
+                title: 'jsonEditor'
+              }
             }
 
-         ]
-        },
-        ],
+          ]
+        }, ],
         imagecropperShow: false,
         imagecropperKey: 0,
         image: 'https://wpimg.wallstcn.com/577965b9-bb9e-4e02-9f0c-095b41417191',
@@ -266,29 +274,29 @@
           alwaysShow: true,
           hidden: false, //true
           name: '', //i18n
-          redirect: '',  //默认重定向/permission/page
+          redirect: '', //默认重定向/permission/page
           meta: {
             title: '', //i18n
             icon: 'international', //international、、lock
-            noCache: true ,       //忘了是什么先加着
-            affix: false,          //可以被删除标签
+            noCache: true, //忘了是什么先加着
+            affix: false, //可以被删除标签
             roles: [] //["admin"]
           },
           children: []
         },
-        showMenuRole:false,
+        showMenuRole: false,
         menuRoleItmen: {
           path: '', ///i18n
           component: '', //Layout
           alwaysShow: true,
           hidden: false, //true
           name: '', //i18n
-          redirect: '',  //默认重定向/permission/page
+          redirect: '', //默认重定向/permission/page
           meta: {
             title: '', //i18n
             icon: 'international', //international、、lock
-            noCache: true ,       //忘了是什么先加着
-            affix: false,          //可以被删除标签
+            noCache: true, //忘了是什么先加着
+            affix: false, //可以被删除标签
             roles: [] //["admin"]
           },
           children: []
@@ -659,52 +667,103 @@
         //tree
         this.showTree = true;
       },
-      append(data,addroles) {
-        let newChild = {
-          id: id++,
+      append(data, addroles) {
+        var newChild = {
           path: '/components',
           component: "Layout",
           redirect: '/',
           alwaysShow: true,
           hidden: false, //true
           name: 'ComponentDemo',
-
+          addroles: false,
           children: [],
         };
-        newChild.addroles=addroles==true?true:false;
-          //id>0并且meta不存在
+        data.addroles = addroles == true ? true : false;
+        newChild = addroles == true ? true : false;
+        //id>0并且meta不存在
 
-        if(!addroles){
-           newChild.meta= {
+        if (!addroles) {
+          newChild.meta = {
             title: 'ComponentDemo', //i18n
             icon: 'international', //international、、lock
-            noCache: true ,       //忘了是什么先加着
-            affix: false,          //可以被删除标签
-            roles:["admin"]
+            noCache: true, //忘了是什么先加着
+            affix: false, //可以被删除标签
+            roles: ["admin"]
           }
         }
 
-        if (addroles==true) {
+        if (addroles == true) {
           //newChild.meta=false;
           if (!data.children) {
             this.$set(data, 'children', []);
           }
           data.children.push(newChild);
-          console.log("添加权限",data)
-        } else if(addroles==false) {
-           if (!data.children) {
+          console.log("添加权限==>" + !newChild.meta, !newChild.children, newChild.addroles, data)
+
+          var treeData = this.treeData;
+          this.treeData = treeData;
+          // routes.addRoutes(data)
+          //   .then(function(response) {
+          //     console.log(response);
+          //     that.$notify({
+          //       title: '成功',
+          //       message: '添加成功',
+          //       type: 'success',
+          //       duration: 2000
+          //     });
+          //    // that.list.splice(index, 1);
+          //   })
+          //   .catch(function(error) {
+          //     console.log(error);
+          //   });
+        } else if (addroles == false) {
+          if (!data.children) {
             this.$set(data, 'children', []);
           }
           data.children.push(newChild);
-          console.log("添加菜单",data)
-        }else{
-           console.log("添加一级菜单")
-            if (!data.children) {
+
+          console.log("添加菜单==>" + newChild.meta, newChild.path, newChild.children, newChild.addroles, data)
+          var treeData = this.treeData;
+          this.treeData = treeData;
+          // routes.addRoutes(data)
+          //   .then(function(response) {
+          //     console.log(response);
+          //     that.$notify({
+          //       title: '成功',
+          //       message: '添加成功',
+          //       type: 'success',
+          //       duration: 2000
+          //     });
+          //    // that.list.splice(index, 1);
+          //   })
+          //   .catch(function(error) {
+          //     console.log(error);
+          //   });
+        } else {
+          console.log("添加一级菜单")
+          if (!data.children) {
             this.$set(data, 'children', []);
           }
+
           this.treeData.push(newChild);
+          var treeData = this.treeData;
+          this.treeData = treeData;
+          // routes.addRoutes(data)
+          //   .then(function(response) {
+          //     console.log(response);
+          //     that.$notify({
+          //       title: '成功',
+          //       message: '添加成功',
+          //       type: 'success',
+          //       duration: 2000
+          //     });
+          //    // that.list.splice(index, 1);
+          //   })
+          //   .catch(function(error) {
+          //     console.log(error);
+          //   });
         }
-       // console.log("静态添加", data, newChild);
+        // console.log("静态添加", data, newChild);
       },
       remove(node, data) {
         const parent = node.parent;
