@@ -10,10 +10,17 @@ export default {
       data
     })
   },
-  listRoutes: function(data) {
+  listRoutes: function() {
     return request({
       url: '/menu/lists',
       method: 'get'
+    })
+  },
+  deletRoutes: function(data) {
+    return request({
+      url: '/menu/del',
+      method: 'post',
+      data
     })
   },
 }
