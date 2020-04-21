@@ -702,20 +702,7 @@
 
           var treeData = this.treeData;
           this.treeData = treeData;
-          // routes.addRoutes(data)
-          //   .then(function(response) {
-          //     console.log(response);
-          //     that.$notify({
-          //       title: '成功',
-          //       message: '添加成功',
-          //       type: 'success',
-          //       duration: 2000
-          //     });
-          //    // that.list.splice(index, 1);
-          //   })
-          //   .catch(function(error) {
-          //     console.log(error);
-          //   });
+       
         } else if (addroles == false) {
           if (!data.children) {
             this.$set(data, 'children', []);
@@ -725,20 +712,7 @@
           console.log("添加菜单==>" + newChild.meta, newChild.path, newChild.children, newChild.addroles, data)
           var treeData = this.treeData;
           this.treeData = treeData;
-          // routes.addRoutes(data)
-          //   .then(function(response) {
-          //     console.log(response);
-          //     that.$notify({
-          //       title: '成功',
-          //       message: '添加成功',
-          //       type: 'success',
-          //       duration: 2000
-          //     });
-          //    // that.list.splice(index, 1);
-          //   })
-          //   .catch(function(error) {
-          //     console.log(error);
-          //   });
+          
         } else {
           console.log("添加一级菜单")
           if (!data.children) {
@@ -748,22 +722,7 @@
           this.treeData.push(newChild);
           var treeData = this.treeData;
           this.treeData = treeData;
-          // routes.addRoutes(data)
-          //   .then(function(response) {
-          //     console.log(response);
-          //     that.$notify({
-          //       title: '成功',
-          //       message: '添加成功',
-          //       type: 'success',
-          //       duration: 2000
-          //     });
-          //    // that.list.splice(index, 1);
-          //   })
-          //   .catch(function(error) {
-          //     console.log(error);
-          //   });
-        }
-        // console.log("静态添加", data, newChild);
+       }
       },
       remove(node, data) {
         const parent = node.parent;
