@@ -101,14 +101,14 @@
             <el-button type="text" size="mini" @click="() => append({id:-1})">
               添加
             </el-button>
-            <el-tree :data="treeData" show-checkbox node-key="id" default-expand-all :expand-on-click-node="false">
+            <el-tree :data="treeData" show-checkbox node-key="id" default-expand-all :expand-on-click-node="false" :props="defaultProps">
               <span class="custom-tree-node" slot-scope="{ node, data }">
                 <span>{{ node.label }}</span>
                 <span>
-                  <el-button type="text" size="mini" @click="() => append(data)">
+                  <el-button type="text" size="mini" v-if="(data.meta && data.path && !data.children)  " @click="() => append(data,addroles=false)">
                     添加菜单
                   </el-button>
-                  <el-button type="text" size="mini" @click="() => append(data)">
+                  <el-button type="text" size="mini" v-if="!(data.children || data.addroles)" @click="() => append(data,addroles=true)">
                     添加权限
                   </el-button>
                   <el-button type="text" size="mini" @click="() => remove(node, data)">
@@ -185,22 +185,6 @@
   import PanThumb from '@/components/PanThumb';
 
   import axios from 'axios';
-  const calendarTypeOptions = [{
-      key: '1',
-      display_name: '启用'
-    },
-    {
-      key: '2',
-      display_name: '禁用'
-    }
-  ];
-
-  // arr to obj, such as { CN : "China", US : "USA" }
-  const calendarTypeKeyValue = calendarTypeOptions.reduce((acc, cur) => {
-    acc[cur.key] = cur.display_name;
-    console.log(acc, cur);
-    return acc;
-  }, {});
   var id = 100;
   export default {
 
@@ -214,55 +198,57 @@
       waves
     },
     filters: {
-      statusFilter(status) {
-        const statusMap = {
-          published: 'success',
-          draft: 'info',
-          deleted: 'danger'
-        };
-        return statusMap[status];
-      },
-      typeFilter(type) {
-        return calendarTypeKeyValue[type];
-      }
+
     },
     data() {
       return {
-        treeData: [{
-          id: 1,
-          label: '一级 1',
-          children: [{
-            id: 4,
-            label: '二级 1-1',
-            children: [{
-              id: 9,
-              label: '三级 1-1-1'
-            }, {
-              id: 10,
-              label: '三级 1-1-2'
-            }]
-          }]
-        }, {
-          id: 2,
-          label: '一级 2',
-          children: [{
-            id: 5,
-            label: '二级 2-1'
-          }, {
-            id: 6,
-            label: '二级 2-2'
-          }]
-        }, {
-          id: 3,
-          label: '一级 3',
-          children: [{
-            id: 7,
-            label: '二级 3-1'
-          }, {
-            id: 8,
-            label: '二级 3-2'
-          }]
-        }, ],
+        defaultProps: {
+          children: 'children',
+          label: 'name'
+        },
+        treeData: [
+          {
+          id:1,
+          path: '/components',
+          component: "Layout",
+          redirect: '/',
+          alwaysShow: true,
+          hidden: false, //true
+          name: 'ComponentDemo',
+          addroles:true,
+          meta: {
+            title: 'ComponentDemo', //i18n
+            icon: 'international', //international、、lock
+            noCache: true ,       //忘了是什么先加着
+            affix: false,          //可以被删除标签
+            roles:["admin"]
+          },
+          children: [
+            {
+               id:2,
+              path: 'tinymce',
+              component: '@/views/components-demo/tinymce',
+              name: 'TinymceDemo',
+              meta: { title: 'tinymce' }
+            },
+            {
+              id:3,
+              path: 'markdown',
+              component: '@/views/components-demo/markdown',
+              name: 'MarkdownDemo',
+              meta: { title: 'markdown' }
+            },
+            {
+              id:4,
+              path: 'json-editor',
+              component: '@/views/components-demo/json-editor',
+              name: 'JsonEditorDemo',
+              meta: { title: 'jsonEditor' }
+            }
+
+         ]
+        },
+        ],
         imagecropperShow: false,
         imagecropperKey: 0,
         image: 'https://wpimg.wallstcn.com/577965b9-bb9e-4e02-9f0c-095b41417191',
@@ -333,17 +319,9 @@
           title: undefined,
           type: undefined
         },
-        importanceOptions: [1, 2, 3],
-        sortOptions: [{
-            label: 'ID Ascending',
-            key: '+id'
-          },
-          {
-            label: 'ID Descending',
-            key: '-id'
-          }
-        ],
-        // statusOptions: ['生效', '草稿'], //生效状态
+
+
+
         showReviewer: false,
         temp: {
           user_name: '',
@@ -681,29 +659,52 @@
         //tree
         this.showTree = true;
       },
-      append(data) {
-        const newChild = {
+      append(data,addroles) {
+        let newChild = {
           id: id++,
-          label: 'testtest',
-          children: []
-        };
-        if (data.id >= 0) {
-          console.log("添加菜单", data)
+          path: '/components',
+          component: "Layout",
+          redirect: '/',
+          alwaysShow: true,
+          hidden: false, //true
+          name: 'ComponentDemo',
 
+          children: [],
+        };
+        newChild.addroles=addroles==true?true:false;
+          //id>0并且meta不存在
+
+        if(!addroles){
+           newChild.meta= {
+            title: 'ComponentDemo', //i18n
+            icon: 'international', //international、、lock
+            noCache: true ,       //忘了是什么先加着
+            affix: false,          //可以被删除标签
+            roles:["admin"]
+          }
+        }
+
+        if (addroles==true) {
+          //newChild.meta=false;
           if (!data.children) {
             this.$set(data, 'children', []);
           }
           data.children.push(newChild);
-        } else {
-          //添加一级菜单
-          console.log("添加一级菜单")
-          if (!data.children) {
+          console.log("添加权限",data)
+        } else if(addroles==false) {
+           if (!data.children) {
+            this.$set(data, 'children', []);
+          }
+          data.children.push(newChild);
+          console.log("添加菜单",data)
+        }else{
+           console.log("添加一级菜单")
+            if (!data.children) {
             this.$set(data, 'children', []);
           }
           this.treeData.push(newChild);
         }
-
-        console.log("静态添加", data, newChild);
+       // console.log("静态添加", data, newChild);
       },
       remove(node, data) {
         const parent = node.parent;
