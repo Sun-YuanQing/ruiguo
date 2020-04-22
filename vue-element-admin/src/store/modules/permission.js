@@ -63,6 +63,7 @@ const mutations = {
  * 后台查询的菜单数据拼装成路由格式的数据
  * @param routes
  */
+var menudata =null;
 export function generaMenu(routes, data) {
   data.forEach(item => {
     item.meta = JSON.parse(item.meta);
@@ -71,6 +72,7 @@ export function generaMenu(routes, data) {
       component: item.component == 'Layout' ? Layout :()=>  import(item.component),
       hidden: item.hidden==0?false:true,
       name: item.name,
+      redirect: item.redirect,
       meta: {
         title: item.meta.title,
         icon: item.meta.icon,
@@ -78,11 +80,12 @@ export function generaMenu(routes, data) {
       },
       children: []
     }
-    if (item.children) {
 
+    menudata = menudata || menu;
+    if (item.children) {
       generaMenu(menu.children, item.children)
     }
-    routes.push(menu);
+    routes.push(menudata);
     console.log(routes)
   })
 }
