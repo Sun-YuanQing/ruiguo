@@ -23,4 +23,11 @@ export default {
       data
     })
   },
+  editRoutes: function(data) {
+    return request({
+      url: '/menu/edit',
+      method: 'post',
+      data
+    })
+  },
 }

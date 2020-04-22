@@ -17,7 +17,7 @@
               <el-button type="text" size="mini" v-if="data.meta && data.path || data.type==1 " @click="() => onAddTree(data,type=1)">
                 添加菜单
               </el-button>
-              <el-button type="text" size="mini" @click="() => onEditTree(data,type=1)">
+              <el-button type="text" size="mini" @click="() => onEditTree(data,type=3)">
                 修改
               </el-button>
               <el-button type="text" size="mini" @click="() => onDeletTree(node, data)">
@@ -114,6 +114,7 @@
         treeData: [],
         showEditTree: false,
         treeType: 0,
+        tempTreedata: null,
         tempMenu: {
           path: '',
           component: "Layout",
@@ -157,50 +158,50 @@
       onAddTree(data, type) {
         this.showEditTree = true;
         this.treeType = type;
-        if (type == 0) {
-          this.tempMenu = {
-            path: '',
-            component: "Layout",
-            redirect: '/',
-            alwaysShow: true,
-            hidden: false,
-            name: '',
-            type: 0,
-            editstate: "add",
-            meta: {
-              title: '', //i18n
-              icon: '', //international、、lock
-              noCache: true, //忘了是什么先加着
-              affix: false, //可以被删除标签
-            }
-          }
+        this.tempTreedata = data;
+        //新的菜单
+        this.tempMenu = {
+          path: '',
+          component: "Layout",
+          redirect: '/',
+          alwaysShow: true,
+          hidden: false,
+          name: '',
+          type: 0,
+          editstate: "add",
+          meta: {
+            title: '', //i18n
+            icon: '', //international、、lock
+            noCache: true, //忘了是什么先加着
+            affix: false, //可以被删除标签
+          },
+          children:[]
         }
+
 
       },
       onEditTree(data, type) {
         this.showEditTree = true;
         this.treeType = type;
+        this.tempMenu = data;
       },
       onAddMenu() {
         // var newChild = {
-       
-        var that = this;
-       
-        if (that.treeType < 2) {
 
-        } else if (that.treeType > 0) {
-          data.type = that.treeType;
-        }
+        var that = this;
+
+       
 
         if (that.treeType == 2) {
-          if (!data.children) {
-            this.$set(data, 'children', []);
+          that.tempMenu.type = 2;
+          if (!that.tempTreedata.children) {
+            this.$set(that.tempTreedata, 'children', []);
           }
           var serveData = {
-            id: data.menu_id,
+            id: that.tempTreedata.menu_id,
             children: that.tempMenu
           }
-          data.children.push(that.tempMenu);
+          that.tempTreedata.children.push(that.tempMenu);
           console.log("添加权限==>")
           routes.addRoutes(serveData).then(function(response) {
               console.log(response);
@@ -210,6 +211,7 @@
                 type: 'success',
                 duration: 2000
               });
+              that.showEditTree = false;
             })
             .catch(function(error) {
               console.log(error);
@@ -218,7 +220,7 @@
 
           that.tempMenu.type = 1;
           var serveData = {
-            id: data.menu_id,
+            id: that.tempTreedata.menu_id,
             children: that.tempMenu
           }
           console.log("添加菜单==>")
@@ -233,15 +235,20 @@
                 duration: 2000
               });
               that.tempMenu.menu_id = response.data.menu_id;
-              data.children.push(that.tempMenu);
+              if (!that.tempTreedata.children) {
+                this.$set(that.tempTreedata, 'children', []);
+              }
+              that.tempTreedata.children.push(that.tempMenu);
+              that.showEditTree = false;
             })
             .catch(function(error) {
               console.log(error);
             });
-        } else {
+        } else if(that.treeType == 0){
           console.log("添加一级菜单")
           var that = this;
           that.tempMenu.type = 1;
+          //一级菜单为0
           var serveData = {
             id: 0,
             children: that.tempMenu
@@ -257,15 +264,42 @@
               //加上服务器的id,不然删除找不到id。
               that.tempMenu.menu_id = response.data.menu_id;
               that.treeData.push(that.tempMenu);
+              that.showEditTree = false;
+            })
+            .catch(function(error) {
+              console.log(error);
+            });
+        }else if(that.treeType == 3){
+
+        that.tempMenu.type = 1;
+          var serveData = {
+            id: that.tempMenu.menu_id,
+            children: that.tempMenu
+          }
+          console.log("编辑菜单==>")
+
+          routes.editRoutes(serveData)
+            .then(function(response) {
+              console.log(response);
+              that.$notify({
+                title: '成功',
+                message: '编辑成功', //[ {}, {}]
+                type: 'success',
+                duration: 2000
+              });
+              that.tempMenu.menu_id = response.data.menu_id;
+
+              that.showEditTree = false;
             })
             .catch(function(error) {
               console.log(error);
             });
         }
+        // that.showEditTree = true;
       },
       onDeletTree(node, data) {
         console.log(node, data)
-        alert(data.menu_id)
+        // alert(data.menu_id)
         var that = this;
         routes.deletRoutes({
             menu_id: data.menu_id
