@@ -1,5 +1,5 @@
 <template>
-  <div>新的菜单</div>
+  <div style="padding: 30px;">新的菜单</div>
 </template>
 
 <script>

@@ -93,44 +93,21 @@ const actions = {
   }, roles) {
     return new Promise(resolve => {
       let accessedRoutes = null;
-      var listRoutes00 = null;
+      var listRoutes00 = [];
 
       const loadMenuData = [];
-      listRoutes().then(function(response) {
-          console.log(response);
-          listRoutes00 = [{
-            path: '/i18n',
-            component: Layout,
-           // hidden: true,
-            name: 'i18n',
-            meta: {
-              title: 'i18n',
-              icon: 'international',
-              roles: ["admin"]
-            },
-            children: [{
-              path: 'index',
-              component: () => import('@/views/i18n-demo/index'),
-              name: 'i18n',
-              meta: {
-                title: 'i18n',
-                icon: 'international'
-              }
-            }]
-          }];
-          Object.assign(loadMenuData, listRoutes00)
-          generaMenu(asyncRoutes, loadMenuData)
-
-          accessedRoutes = filterAsyncRoutes(listRoutes00, roles)
-
-          commit('SET_ROUTES', accessedRoutes)
-          resolve(accessedRoutes)
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
-
-
+      // listRoutes().then(function(response) {
+      //     console.log(response);
+      //     listRoutes00 = [{}];
+      //     Object.assign(loadMenuData, listRoutes00)
+      //     generaMenu(asyncRoutes, loadMenuData)
+      //   })
+      //   .catch(function(error) {
+      //     console.log(error);
+      //   });
+      accessedRoutes = filterAsyncRoutes(listRoutes00, roles);
+      commit('SET_ROUTES', accessedRoutes);
+      resolve(accessedRoutes);
     })
   }
 }
