@@ -65,23 +65,24 @@ const mutations = {
  */
 export function generaMenu(routes, data) {
   data.forEach(item => {
-
-    const menu = {
+    item.meta = JSON.parse(item.meta);
+    var menu = {
       path: item.path,
-      component: item.component === '#' ? Layout : item.component,
+      component: item.component == 'Layout' ? Layout :()=>  import(item.component),
+      hidden: item.hidden==0?false:true,
       name: item.name,
       meta: {
         title: item.meta.title,
+        icon: item.meta.icon,
         roles: item.meta.roles
       },
       children: []
-
     }
     if (item.children) {
 
       generaMenu(menu.children, item.children)
     }
-    routes.push(menu)
+    routes.push(menu);
     console.log(routes)
   })
 }
@@ -93,21 +94,55 @@ const actions = {
   }, roles) {
     return new Promise(resolve => {
       let accessedRoutes = null;
-      var listRoutes00 = [];
+      var listRoutes00 = null;
 
       const loadMenuData = [];
-      // listRoutes().then(function(response) {
-      //     console.log(response);
-      //     listRoutes00 = [{}];
-      //     Object.assign(loadMenuData, listRoutes00)
-      //     generaMenu(asyncRoutes, loadMenuData)
-      //   })
-      //   .catch(function(error) {
-      //     console.log(error);
-      //   });
-      accessedRoutes = filterAsyncRoutes(listRoutes00, roles);
-      commit('SET_ROUTES', accessedRoutes);
-      resolve(accessedRoutes);
+      listRoutes().then(function(response) {
+          console.log(response);
+          listRoutes00 = [{
+            "pid": "0",
+            "path": "/i18n",
+            "component": "Layout",
+            "redirect": "",
+            "always_show": 1,
+            "children_roles": 0,
+            "hidden": 0,
+            "name": "国际化",
+            "type": 1,
+            "editstate": "add",
+            "meta": "{\"title\":\"\\u56fd\\u9645\\u5316\",\"icon\":\"international\",\"noCache\":true,\"affix\":1}",
+            "update_time": 1587552840,
+            "menu_id": 269,
+            "children": [{
+                "pid": "269",
+                "path": "index",
+                "component": "@/views/i18n-demo/index",
+                "redirect": "",
+                "always_show": 1,
+                "children_roles": 0,
+                "hidden": 0,
+                "name": "国际化语言",
+                "type": 1,
+                "editstate": "add",
+                "meta": "{\"title\":\"\\u6807\\u9898\",\"icon\":\"international\",\"noCache\":true,\"affix\":1}",
+                "update_time": 1587552960,
+                "menu_id": 270
+              }
+            ]
+          }];
+          Object.assign(loadMenuData, listRoutes00)
+          generaMenu(asyncRoutes, loadMenuData)
+
+          accessedRoutes = filterAsyncRoutes(listRoutes00, roles)
+
+          commit('SET_ROUTES', accessedRoutes)
+          resolve(accessedRoutes)
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+
+
     })
   }
 }

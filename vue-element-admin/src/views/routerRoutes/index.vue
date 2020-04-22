@@ -156,20 +156,17 @@
     },
     methods: {
       getList() {
-        //var that=this;
         routes.listRoutes().then((response) => {
             console.log(response);
             this.treeData = response.data;
-
-            console.log(this.treeData)
+            var strData=JSON.stringify(this.treeData)
+            console.log(strData)
           })
           .catch(function(error) {
             console.log(error);
           });
       },
       onAddTree(data, type) {
-
-
         this.treeType = type;
         this.tempItem = data;
         this.tempTreedata = data;
@@ -340,7 +337,7 @@
                     ...that.tempTreedata,
                     ...that.tempRoles
                   };
-                  that.tempTreedata.name = "11111111111111";
+
 
                   that.showEditTree = false;
                   that.showEditRoles = false;
@@ -431,7 +428,7 @@
          this.showEditRoles = false;
           this.getList();
       }
-    } 
+    }
   };
 </script>
 
