@@ -7,14 +7,14 @@
       </el-tab-pane> -->
       <el-tab-pane label="添加菜单">
         <!-- 权限 -->
-        <el-button type="text" size="mini" @click="() => append(data=null,type=0)">
+        <el-button type="text" size="mini" @click="() => onAddTree(data=null,type=0)">
           添加一级菜单
         </el-button>
         <el-tree :data="treeData" show-checkbox node-key="id" default-expand-all :expand-on-click-node="false" :props="defaultProps">
           <span class="custom-tree-node" slot-scope="{ node, data }">
             <span>{{ node.label +"===="+data.menu_id }}</span>
             <span>
-              <el-button type="text" size="mini" v-if="data.meta && data.path || data.type==1 " @click="() => append(data,type=1)">
+              <el-button type="text" size="mini" v-if="data.meta && data.path || data.type==1 " @click="() => onAddTree(data,type=1)">
                 添加菜单
               </el-button>
               <el-button type="text" size="mini" @click="() => onEditTree(data,type=1)">
@@ -35,7 +35,7 @@
             <span>{{ node.label }}</span>
             <span>
 
-              <el-button type="text" size="mini" v-if="!data.meta || data.type==2 " @click="() => append(data,type=2)">
+              <el-button type="text" size="mini" v-if="!data.meta || data.type==2 " @click="() => onAddTree(data,type=2)">
                 添加权限
               </el-button>
               <el-button type="text" size="mini" @click="() => onDeletTree(node, data)">
@@ -46,9 +46,49 @@
         </el-tree>
       </el-tab-pane>
     </el-tabs>
-<!--    <template>
+    <!--    <template>
       <el-button type="text" @click="open">点击打开 Message Box</el-button>
     </template> -->
+    <el-dialog title="编辑菜单" :visible.sync="showEditTree">
+      <el-form ref="formData" :model="tempMenu" label-position="left" label-width="70px" style="width: 100%; margin-left:50px;">
+        <el-form-item label="url路径" style="width:60%">
+          <el-input v-model="tempMenu.path" />
+        </el-form-item>
+        <el-form-item label="菜单名称" label-width="80" style="width:60%">
+          <el-input v-model="tempMenu.name" placeholder="菜单名称" />
+        </el-form-item>
+
+        <el-form-item label="重定向url" label-width="100" style="width:60%">
+          <el-input v-model="tempMenu.redirect" />
+        </el-form-item>
+        <el-form-item label="菜单文件路径" label-width="100" style="width:60%">
+          <el-input v-model="tempMenu.component" placeholder="一级菜单为'Layout'" />
+        </el-form-item>
+        <el-form-item label="隐藏菜单" label-width="100">
+          <el-tooltip :content="tempMenu.hidden == 1 ? '隐藏' : '显示'" placement="top">
+            <el-switch @change="onUserStatus('tempMenu')" v-model="tempMenu.hidden" active-color="#7B68EE"
+              inactive-color="#cccccc" :active-value="1" :inactive-value="0"></el-switch>
+          </el-tooltip>
+        </el-form-item>
+        <el-form-item label="title">
+          <el-input v-model="tempMenuMeta.title" placeholder="网页title." />
+        </el-form-item>
+        <el-form-item label="菜单luog">
+          <el-input v-model="tempMenuMeta.icon" placeholder="菜单luog,请参考Element ui" />
+        </el-form-item>
+        <el-form-item label="页面权重">
+          <el-tooltip :content="tempMenuMeta.affix == 1 ? '打开页面后不能关闭' : '可以关闭页面'" placement="top">
+            <el-switch v-model="tempMenuMeta.affix" active-color="#7B68EE" inactive-color="#cccccc" :active-value="1"
+              :inactive-value="0"></el-switch>
+          </el-tooltip>
+        </el-form-item>
+      </el-form>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="showEditTree = false">取消</el-button>
+        <el-button type="primary" @click="onAddMenu()">确定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -72,54 +112,30 @@
           label: 'name'
         },
         treeData: [],
-        treeData1: [{
-          id: 1,
-          path: '/components',
+        showEditTree: false,
+        treeType: 0,
+        tempMenu: {
+          path: '',
           component: "Layout",
           redirect: '/',
           alwaysShow: true,
-          hidden: false, //true
-          name: 'ComponentDemo',
-          type: 1,
+          hidden: false,
+          name: '菜单名称',
+          type: 0,
+          editstate: "add",
           meta: {
-            title: 'ComponentDemo', //i18n
-            icon: 'international', //international、、lock
+            title: '标题', //i18n
+            icon: '图标international', //international、、lock
             noCache: true, //忘了是什么先加着
             affix: false, //可以被删除标签
-            roles: ["admin"]
-          },
-          children: [{
-              id: 2,
-              path: 'tinymce',
-              component: '@/views/components-demo/tinymce',
-              name: 'TinymceDemo',
-              type: 2,
-              meta: {
-                title: 'tinymce'
-              }
-            },
-            {
-              id: 3,
-              path: 'markdown',
-              component: '@/views/components-demo/markdown',
-              name: 'MarkdownDemo',
-              type: 2,
-              meta: {
-                title: 'markdown'
-              }
-            },
-            {
-              id: 4,
-              path: 'json-editor',
-              component: '@/views/components-demo/json-editor',
-              name: 'JsonEditorDemo',
-              meta: {
-                title: 'jsonEditor'
-              }
-            }
-
-          ]
-        }, ]
+          }
+        },
+        tempMenuMeta: {
+          title: '标题', //i18n
+          icon: '图标international', //international、、lock
+          noCache: true, //忘了是什么先加着
+          affix: false, //可以被删除标签
+        }
       }
     },
     created() {
@@ -138,50 +154,54 @@
             console.log(error);
           });
       },
-      append(data, type) {
-        var newChild = {
-          path: '/components',
-          component: "Layout",
-          redirect: '/',
-          alwaysShow: true,
-          hidden: false, //true
-          name: 'ComponentDemo',
-          type: 0,
-
-          editstate: "add"
-
-        };
-        var that = this;
-
-
-        if (type < 2) {
-
-          newChild.meta = {
-            title: 'ComponentDemo', //i18n
-            icon: 'international', //international、、lock
-            noCache: true, //忘了是什么先加着
-            affix: false, //可以被删除标签
+      onAddTree(data, type) {
+        this.showEditTree = true;
+        this.treeType = type;
+        if (type == 0) {
+          this.tempMenu = {
+            path: '',
+            component: "Layout",
+            redirect: '/',
+            alwaysShow: true,
+            hidden: false,
+            name: '',
+            type: 0,
+            editstate: "add",
+            meta: {
+              title: '', //i18n
+              icon: '', //international、、lock
+              noCache: true, //忘了是什么先加着
+              affix: false, //可以被删除标签
+            }
           }
-
-        } else if (type > 0) {
-          data.type = type;
         }
 
+      },
+      onEditTree(data, type) {
+        this.showEditTree = true;
+        this.treeType = type;
+      },
+      onAddMenu() {
+        // var newChild = {
+       
+        var that = this;
+       
+        if (that.treeType < 2) {
 
-        if (type == 2) {
+        } else if (that.treeType > 0) {
+          data.type = that.treeType;
+        }
 
+        if (that.treeType == 2) {
           if (!data.children) {
             this.$set(data, 'children', []);
           }
           var serveData = {
             id: data.menu_id,
-            children: newChild
+            children: that.tempMenu
           }
-          data.children.push(newChild);
+          data.children.push(that.tempMenu);
           console.log("添加权限==>")
-
-          var treeData = this.treeData;
-          this.treeData = treeData;
           routes.addRoutes(serveData).then(function(response) {
               console.log(response);
               that.$notify({
@@ -194,18 +214,15 @@
             .catch(function(error) {
               console.log(error);
             });
-        } else if (type == 1) {
+        } else if (that.treeType == 1) {
 
-          if (!data.children) {
-            this.$set(data, 'children', []);
-          }
+          that.tempMenu.type = 1;
           var serveData = {
             id: data.menu_id,
-            children: newChild
+            children: that.tempMenu
           }
-
           console.log("添加菜单==>")
-          that
+
           routes.addRoutes(serveData)
             .then(function(response) {
               console.log(response);
@@ -215,22 +232,19 @@
                 type: 'success',
                 duration: 2000
               });
-              newChild.menu_id = response.data.menu_id;
-              data.children.push(newChild);
-              var treeData = that.treeData;
-              that.treeData = treeData;
+              that.tempMenu.menu_id = response.data.menu_id;
+              data.children.push(that.tempMenu);
             })
             .catch(function(error) {
               console.log(error);
             });
         } else {
           console.log("添加一级菜单")
-
-          newChild.type = 1; //新的菜单//type//
-
+          var that = this;
+          that.tempMenu.type = 1;
           var serveData = {
             id: 0,
-            children: newChild
+            children: that.tempMenu
           }
           routes.addRoutes(serveData).then(function(response) {
               console.log(response);
@@ -240,15 +254,14 @@
                 type: 'success',
                 duration: 2000
               });
-              newChild.menu_id = response.data.menu_id;
-
-              that.treeData.push(newChild);
+              //加上服务器的id,不然删除找不到id。
+              that.tempMenu.menu_id = response.data.menu_id;
+              that.treeData.push(that.tempMenu);
             })
             .catch(function(error) {
               console.log(error);
             });
         }
-        // console.log("静态添加", data, newChild);
       },
       onDeletTree(node, data) {
         console.log(node, data)
@@ -282,12 +295,8 @@
           .catch(function(error) {
             console.log(error);
           });
-
-
-
-
-
       },
+
       confirmRole() {
         console.log("确定");
         this.showTree = false;
