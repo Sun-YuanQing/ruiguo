@@ -9,7 +9,7 @@ import {
 import {
   listRoutes
 } from '@/api/user.js'
-import Layout from '@/layout'
+import components from '@/components/components'
 //throw new Error（‘出错了‘）
 /**
  * Use meta.role to determine if the current user has permission
@@ -66,10 +66,13 @@ const mutations = {
 var menudata =null;
 export function generaMenu(routes, data) {
   data.forEach(item => {
-    item.meta = JSON.parse(item.meta);
+    if(typeof  item.meta =='string'){
+      item.meta = JSON.parse(item.meta);
+    }
+
     var menu = {
       path: item.path,
-      component: item.component == 'Layout' ? Layout :()=>  import(item.component),
+      component:components[item.component1],
       hidden: item.hidden==0?false:true,
       name: item.name,
       redirect: item.redirect,
@@ -81,11 +84,10 @@ export function generaMenu(routes, data) {
       children: []
     }
 
-    menudata = menudata || menu;
     if (item.children) {
       generaMenu(menu.children, item.children)
     }
-    routes.push(menudata);
+    routes.push(menu);
     console.log(routes)
   })
 }
@@ -105,8 +107,8 @@ const actions = {
           listRoutes00 = [{
             "pid": "0",
             "path": "/i18n",
-            "component": "Layout",
-            "redirect": "",
+            "component1": "Layout",
+            "redirect": "/i18n/index",
             "always_show": 1,
             "children_roles": 0,
             "hidden": 0,
@@ -119,7 +121,7 @@ const actions = {
             "children": [{
                 "pid": "269",
                 "path": "index",
-                "component": "@/views/i18n-demo/index",
+                "component1": "i18n",
                 "redirect": "",
                 "always_show": 1,
                 "children_roles": 0,
