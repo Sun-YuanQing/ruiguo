@@ -5,9 +5,9 @@ import Layout from '@/layout'
 const routerRoutes = {
   path: '/routerRoutes',
   component: Layout,
-  name: '系统菜单/权限',
+  name: '系统相关',
   meta: {
-    title: 'routerRoutes',
+    title: '系统相关',
     icon: 'table'
   },
   children: [

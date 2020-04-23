@@ -63,31 +63,34 @@ const mutations = {
  * 后台查询的菜单数据拼装成路由格式的数据
  * @param routes
  */
-var menudata =null;
+var menudata = null;
 export function generaMenu(routes, data) {
   data.forEach(item => {
-    if(typeof  item.meta =='string'){
-      item.meta = JSON.parse(item.meta);
-    }
-
     var menu = {
       path: item.path,
-      component:components[item.component1],
-      hidden: item.hidden==0?false:true,
+      component: components[item.component1],
+      hidden: item.hidden == 0 ? false : true,
       name: item.name,
+      alwaysShow: item.always_show,
       redirect: item.redirect,
-      meta: {
-        title: item.meta.title,
-        icon: item.meta.icon,
-        roles: item.meta.roles
-      },
       children: []
     }
-
-    if (item.children) {
-      generaMenu(menu.children, item.children)
+    if (typeof item.meta == 'string') {
+      item.meta = JSON.parse(item.meta);
+      menu.meta = {
+        title: item.meta.title,
+        icon: item.meta.icon,
+        affix: item.meta.affix == 1 ? true : false,
+        noCache: item.meta.noCache == 1 ? true : false,
+        roles: item.meta.roles
+      }
     }
-    routes.push(menu);
+    if (item.children) {
+      routes.push(menu);
+      generaMenu(menu.children, item.children)
+    } else {
+      routes.push(menu);
+    }
     console.log(routes)
   })
 }
@@ -103,38 +106,8 @@ const actions = {
 
       const loadMenuData = [];
       listRoutes().then(function(response) {
-          console.log(response);
-          listRoutes00 = [{
-            "pid": "0",
-            "path": "/i18n",
-            "component1": "Layout",
-            "redirect": "/i18n/index",
-            "always_show": 1,
-            "children_roles": 0,
-            "hidden": 0,
-            "name": "国际化",
-            "type": 1,
-            "editstate": "add",
-            "meta": "{\"title\":\"\\u56fd\\u9645\\u5316\",\"icon\":\"international\",\"noCache\":true,\"affix\":1}",
-            "update_time": 1587552840,
-            "menu_id": 269,
-            "children": [{
-                "pid": "269",
-                "path": "index",
-                "component1": "i18n",
-                "redirect": "",
-                "always_show": 1,
-                "children_roles": 0,
-                "hidden": 0,
-                "name": "国际化语言",
-                "type": 1,
-                "editstate": "add",
-                "meta": "{\"title\":\"\\u6807\\u9898\",\"icon\":\"international\",\"noCache\":true,\"affix\":1}",
-                "update_time": 1587552960,
-                "menu_id": 270
-              }
-            ]
-          }];
+          console.log('获取',response.data);
+          listRoutes00 =response.data||[]
           Object.assign(loadMenuData, listRoutes00)
           generaMenu(asyncRoutes, loadMenuData)
 
@@ -146,7 +119,9 @@ const actions = {
         .catch(function(error) {
           console.log(error);
         });
-
+         accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
+          commit('SET_ROUTES', accessedRoutes)
+          resolve(accessedRoutes)
 
     })
   }

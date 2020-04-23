@@ -10,15 +10,14 @@
         <el-button type="text" size="mini" @click="() => onAddTree(data=null,type=0)">
           添加一级菜单
         </el-button>
-        <el-tree :data="treeData" show-checkbox node-key="id" default-expand-all :expand-on-click-node="false" :props="defaultProps">
+        <el-tree :data="treeData" node-key="id" default-expand-all :expand-on-click-node="false" :props="defaultProps">
           <span class="custom-tree-node" slot-scope="{ node, data }">
-            <span>{{ node.label +"===="+data.menu_id }}</span>
+            <span>{{ node.label }}</span>
             <span>
               <el-button type="text" size="mini" v-if="data.type==1 && !data.children_roles" @click="() => onAddTree(data,type=1)">
                 添加菜单
               </el-button>
-              <el-button type="text" size="mini" v-if="data.type==2 || !data.children || data.children_roles "" @click="
-                ()=> onAddTree(data,type=2)">
+              <el-button type="text" size="mini" v-if="data.type==2 || !data.children || data.children_roles " @click="()=> onAddTree(data,type=2)">
                 添加权限
               </el-button>
               <el-button type="text" size="mini" @click="() => onEditTree(data,type=3)">
@@ -32,13 +31,7 @@
         </el-tree>
       </el-tab-pane>
 
-      <el-tab-pane label="添加按钮">
-        <el-tree :data="treeData" show-checkbox node-key="id" default-expand-all :expand-on-click-node="false" :props="defaultProps">
-          <span class="custom-tree-node" slot-scope="{ node, data }">
-            <span>{{ node.label +"===="+data.menu_id }}</span>
-          </span>
-        </el-tree>
-      </el-tab-pane>
+      
     </el-tabs>
     <!--    <template>
       <el-button type="text" @click="open">点击打开 Message Box</el-button>
@@ -61,6 +54,12 @@
         <el-form-item label="隐藏菜单" label-width="100">
           <el-tooltip :content="tempMenu.hidden == 1 ? '隐藏' : '显示'" placement="top">
             <el-switch @change="onUserStatus('tempMenu')" v-model="tempMenu.hidden" active-color="#7B68EE"
+              inactive-color="#cccccc" :active-value="1" :inactive-value="0"></el-switch>
+          </el-tooltip>
+        </el-form-item>
+        <el-form-item label="下级类型" label-width="100">
+          <el-tooltip :content="tempMenu.children_roles == 1 ? '下级是权限' : '下级是菜单'" placement="top">
+            <el-switch @change="onUserStatus('tempMenu')" v-model="tempMenu.children_roles" active-color="#7B68EE"
               inactive-color="#cccccc" :active-value="1" :inactive-value="0"></el-switch>
           </el-tooltip>
         </el-form-item>
@@ -159,7 +158,7 @@
         routes.listRoutes().then((response) => {
             console.log(response);
             this.treeData = response.data;
-            var strData=JSON.stringify(this.treeData)
+            var strData = JSON.stringify(this.treeData)
             console.log(strData)
           })
           .catch(function(error) {
@@ -317,8 +316,8 @@
 
 
 
-            if (that.tempItem.type == 2) {
-               try {
+          if (that.tempItem.type == 2) {
+            try {
               that.tempRoles.type = 2;
               var serveData = {
                 id: that.tempRoles.menu_id,
@@ -423,10 +422,10 @@
         console.log("确定");
         this.showTree = false;
       },
-      onCancel(){
+      onCancel() {
         this.showEditTree = false;
-         this.showEditRoles = false;
-          this.getList();
+        this.showEditRoles = false;
+        this.getList();
       }
     }
   };

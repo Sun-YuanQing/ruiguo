@@ -6,17 +6,17 @@ const tableRouter = {
   path: '/',
   component: Layout,
   redirect: '/userlist',
-  name: 'Table',
+  name: '用户',
   meta: {
-    title: 'Table',
+    title: '用户',
     icon: 'table'
   },
   children: [
     {
       path: 'userlist',
       component: () => import('@/views/users/userlist'),
-      name: 'ComplexTable',
-      meta: { title: 'complexTable' ,affix: true }
+      name: '用户列表',
+      meta: { title: '用户列表' ,affix: true }
     }
   ]
 }

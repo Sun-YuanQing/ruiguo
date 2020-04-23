@@ -18,12 +18,12 @@
           <img class="userImg" :src="imageUrl + row.images"></img>
         </template>
       </el-table-column>
-      <el-table-column label="用户名称" align="center" width="200">
+      <el-table-column label="用户名称" align="center"  min-width="100" >
         <template slot-scope="{ row }">
           <span>{{ row.user_name }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="账号" align="center" width="200">
+      <el-table-column label="账号" align="center"  min-width="100" >
         <template slot-scope="{ row }">
           <span>{{ row.user_account }}</span>
         </template>
@@ -42,7 +42,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column :label="$t('table.actions')" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="其他"  align="center" min-width="230" > class-name="small-padding fixed-width">
         <template slot-scope="{ row, $index }">
           <el-button type="primary" size="mini" @click="onUpdateBtn(row)">修改</el-button>
           <el-button size="mini" type="success" @click="onEditPermission(row)">权限</el-button>
@@ -702,7 +702,7 @@
 
           var treeData = this.treeData;
           this.treeData = treeData;
-       
+
         } else if (addroles == false) {
           if (!data.children) {
             this.$set(data, 'children', []);
@@ -712,7 +712,7 @@
           console.log("添加菜单==>" + newChild.meta, newChild.path, newChild.children, newChild.addroles, data)
           var treeData = this.treeData;
           this.treeData = treeData;
-          
+
         } else {
           console.log("添加一级菜单")
           if (!data.children) {
