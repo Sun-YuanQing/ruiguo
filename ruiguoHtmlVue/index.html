@@ -2,29 +2,130 @@
 <html>
 	<head>
 		<meta charset="utf-8" />
-		<title>第一页</title>
+		<title>首页</title>
+		<mate name="description" content="内容描述概述"></mate>
+		<mate name="keywords" content="睿果,睿果国际,试管婴儿,三代试管婴儿,泰国三代试管婴儿"></mate>
 		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/jquery-3.0.0.min.js"></script>
 	</head>
 	<body>
 		<div id="app">
-			{{message}}
-			<div class="">
-				{{view[0]}}
+			<div class="head">
+				<div class="wrapper-head-no1">
+					<div class="head-no1 f-row-between">
+						<div class="head-no1-lable">
+							泰国知名试管婴儿医院官方授权服务中心
+						</div>
+						<div class="head-no1-tel">
+							联系电话：400-623-9989
+						</div>
+					</div>
+				</div>
+				<div class="wrapper-head-no2">
+					<div class="head-no2  f-row-between">
+						<div>
+							<input type="image" style="width: 10.6875rem;height:3.0625rem" src="images/ruiGuoLogo.png" />
+						</div>
+						<ul>
+							<li id="nav_bar_lable_1" name="nav-bar-lable" class="nav-bar-lable nav-bar-lable-active" data-navbar="1" @click="onHead_no2_lable">
+								睿果首页
+								<!-- <a href="http://www.ruiguohealth.com" >睿果首页</a> -->
+							</li>
+							<li id="nav_bar_lable_2" name="nav-bar-lable" class="nav-bar-lable" data-navbar="2" @click="onHead_no2_lable">
+								服务项目
+								<!-- <a href="http://www.ruiguohealth.com/ruivf/" title="睿果国际,服务项目" >服务项目</a> -->
+							</li>
+							<li id="nav_bar_lable_3" name="nav-bar-lable" class="nav-bar-lable" data-navbar="3" @click="onHead_no2_lable">
+								<a href="http://www.ruiguohealth.com/pgtivf/" title="睿果国际,试管费用">试管费用</a>
+							</li>
+							<li id="nav_bar_lable_4" name="nav-bar-lable" class="nav-bar-lable" data-navbar="4" @click="onHead_no2_lable">
+								<a href="http://www.ruiguohealth.com/hospital/" title="睿果国际,海外试管医院">试管医院</a>
+							</li>
+							<li id="nav_bar_lable_5" name="nav-bar-lable" class="nav-bar-lable" data-navbar="5" @click="onHead_no2_lable">
+								<a href="http://www.ruiguohealth.com/housekeeping/" title="睿果国际,试管医生">试管医生</a>
+							</li>
+							<li id="nav_bar_lable_6" name="nav-bar-lable" class="nav-bar-lable" data-navbar="6" @click="onHead_no2_lable">
+								<a href="http://www.ruiguohealth.com/case/" title="睿果国际,试管攻略">试管攻略</a>
+							</li>
+							<li id="nav_bar_lable_7" name="nav-bar-lable" class="nav-bar-lable" data-navbar="7" @click="onHead_no2_lable">
+								<a href="http://www.ruiguohealth.com/about/" title="睿果国际,关于我们">关于我们</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<!--banner  -->
+			<div class="banner-slick">
+				<input type="image" src="./images/banner-1.png" />
+			</div>
+			<!-- 第二块 -->
+			<div class="wrapper">
+				<div class="content bolok-1">
+					<div class="item">
+						<input type="image" src="./images/san.png" />
+						<span class="title">国内三代</span>
+						<span class="description">不出国门，照样体验第三代试管婴儿技术</span>
+					</div>
+					<div class="item">
+						<input type="image" src="./images/san.png" />
+						<span class="title">国内三代</span>
+						<span class="description">不出国门，照样体验第三代试管婴儿技术</span>
+					</div>
+					<div class="item">
+						<input type="image" src="./images/san.png" />
+						<span class="title">国内三代</span>
+						<span class="description">不出国门，照样体验第三代试管婴儿技术</span>
+					</div>
+					<div class="item">
+						<input type="image" src="./images/san.png" />
+						<span class="title">国内三代</span>
+						<span class="description">不出国门，照样体验第三代试管婴儿技术</span>
+					</div>
+					<div class="item">
+						<input type="image" src="./images/san.png" />
+						<span class="title">国内三代</span>
+						<span class="description">不出国门，照样体验第三代试管婴儿技术</span>
+					</div>
+					<div class="item">
+						<input type="image" src="./images/san.png" />
+						<span class="title">国内三代</span>
+						<span class="description">不出国门，照样体验第三代试管婴儿技术</span>
+					</div>
+				</div>
+			</div>
+
+			<!-- 第三块 -->
+			<div class="wrapper">
+				<div class="content bolok-2">
+					<div class="title-box">
+						<div class="title-content">
+							<div class="hr">
+
+							</div> <span class="title">试管婴儿成功案例</span>
+							<div class="hr">
+
+							</div>
+						</div>
+						<span class="">
+
+						</span>
+					</div>
+					<div class="content">
+
+					</div>
+				</div>
 			</div>
 		</div>
-		<h3>这是第二次提交代码 </h3>
-		<h1>孙</h1>
-		<h3>这是分支提交代码 </h3>
 		<script type="text/javascript">
+			var that = null;
 			var app = new Vue({
 				el: '#app',
 				data: {
-					message: 'Hello Vue!',
-					view:[]
+					nav_bar_index: 0,
+					view: []
 				},
-				created(){
-					var that=this;
+				created() {
+					that = this;
 					$.ajax({
 						type: "GET",
 						url: "http://ruiguo.ruiguohealth.com/api/public/index.php/api/v1/menu/lists",
@@ -32,12 +133,37 @@
 						dataType: "json",
 						success: function(data) {
 							console.log(data);
-							that.view=data.data;
+							that.view = data.data;
 						}
+
 					});
+				},
+				methods: {
+					onHead_no2_lable: (element) => {
+
+						var target = element.target;
+						console.log(target);
+						// var srcElement = element.srcElement;
+						// that.nav_bar_index = parseInt(srcElement.dataset.navbar);  
+						$("#" + target.id)[0].className = "nav-bar-lable nav-bar-lable-active";
+						// $("[name='nav-bar-lable']").each(function() {
+						// 	 var t =$(this)
+						// 	 console.info(t);
+						// 	 $(this)[0].className = "nav-bar-lable";
+						//      console.info(t);
+						// })
+
+
+						// $(target.id).css({
+						//   'backgroud-color':'red',
+						//   'color':'black'
+						// });
+
+					}
 				}
 			})
-			
 		</script>
+		<link rel="stylesheet" type="text/css" href="./css/index.css" />
+		<link rel="stylesheet" type="text/css" href="./css/content.css" />
 	</body>
 </html>

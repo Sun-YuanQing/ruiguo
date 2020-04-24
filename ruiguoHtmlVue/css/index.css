@@ -3,23 +3,171 @@
 	margin: 0px;
 }
 
-.head-no1 {
-	width: 1920px;
-	height: 40px;
+li {
+	list-style-type: none;
+	text-align: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+a:visited {
+	text-decoration: none;
+}
+
+a:link {
+	text-decoration: none;
+}
+
+
+
+li a {
+	color: rgba(51, 51, 51, 1);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.wrapper {
+	/* 100% 不要写rem px等单位版心content起不到效果*/
+	width: 100%;
+}
+
+.wrapper .content {
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+} 
+
+.wrapper-head-no1 {
+	width: 100%;
+	height: 2.5rem;
 	background: rgba(245, 245, 245, 1);
+}
+
+.head-no1 {
+	width:80rem;
+	height: 2.5rem;
 	opacity: 1;
-	outline: 1px solid rgba(23, 23, 23, 0.6);
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+}
+
+.head-no1-lable {
+	height: 1.0625rem;
+	font-size: 0.9375rem;
+	font-family: Microsoft YaHei;
+	font-weight: 400;
+	line-height: 1.25rem;
+	color: rgba(153, 153, 153, 1);
+	opacity: 1;
+}
+
+.head-no1-tel {
+	height: 1rem;
+	font-size: 0.9375rem;
+	font-family: Microsoft YaHei;
+	font-weight: 400;
+	line-height: 20rpm;
+	color: rgba(153, 153, 153, 1);
+	opacity: 1;
+}
+
+.wrapper-head-no2 {
+	width: 100%;
+	height: 5rem;
 }
 
 .head-no2 {
-	width: 100%;
-	height: 80px;
-	background: rgba(245, 245, 245, 1);
+	width: 80rem;
+	height: 5rem;
 	opacity: 1;
-	outline: 1px solid rgba(23, 23, 23, 0.6);
+	border-bottom: 1px solid rgba(23, 23, 23, 0.8);
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+}
+
+.head-no2 ul {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+}
+
+
+.head-no2 li a {
+	height: 1.3125rem;
+	font-size: 1rem;
+	font-family: Microsoft YaHei;
+	font-weight: 400;
+	line-height: 1.3125rem;
+	color: rgba(51, 51, 51, 1);
+	opacity: 1;
+}
+
+.head-no2 li a:hover {
+	font-size: 1rem;
+	font-family: Microsoft YaHei;
+	font-weight: 400;
+	line-height: 1.3125rem;
+	color: rgba(71, 171, 185, 1);
+	opacity: 1;
+}
+
+
+
+
+
+.nav-bar-lable:hover {
+	font-size: 1rem;
+	font-family: Microsoft YaHei;
+	font-weight: 400;
+	line-height: 1.3125rem;
+	color: rgba(71, 171, 185, 1);
+	opacity: 1;
+}
+
+.nav-bar-lable {
+	width: 80px;
+	height: 30px;
+}
+
+.nav-bar-lable-active {
+	background: rgba(71, 171, 185, 1);
+	opacity: 1;
+	border-radius: 6.25rem;
+
+	font-size: 1rem;
+	font-family: Microsoft YaHei;
+	font-weight: 400;
+	line-height: 1.3125rem;
+	color: rgba(255, 255, 255, 1);
+	opacity: 1;
 }
 
 .head {
+	width: 100%;
 	height: 120px;
-	outline: 1px solid rgba(23, 23, 23, 0.6);
+}
+
+.f-row-center {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+}
+
+.f-row-between {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
 }
