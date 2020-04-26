@@ -3,7 +3,7 @@
 	margin: 0px;
 }
 
-li {
+.head-no2 li {
 	list-style-type: none;
 	text-align: center;
 	display: flex;
@@ -19,9 +19,11 @@ a:link {
 	text-decoration: none;
 }
 
+a {
+	color: rgba(54, 54, 54, 255);
+}
 
-
-li a {
+.head-no2 li a {
 	color: rgba(51, 51, 51, 1);
 	display: flex;
 	justify-content: center;
@@ -171,3 +173,5 @@ li a {
 	justify-content: space-between;
 	align-items: center;
 }
+
+
