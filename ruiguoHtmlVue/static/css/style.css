@@ -1,135 +1,9 @@
-@charset "utf-8";
 
-*html {
-	background-image: url(about:blank);
-	background-attachment: fixed
-}
 
-body {
-	margin: 0 auto;
-	padding: 0;
-	width: 100%;
-	overflow-x: hidden;
-	background: #fff;
-	font: 0.75em/12px
-}
 
-html,
-body,
-div,
-applet,
-object,
-iframe,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-blockquote,
-pre,
-a,
-abbr,
-acronym,
-address,
-big,
-cite,
-code,
-del,
-dfn,
-em,
-font,
-img,
-ins,
-kbd,
-q,
-s,
-samp,
-small,
-strike,
-strong,
-sub,
-sup,
-tt,
-var,
-u,
-i,
-center,
-dl,
-dt,
-dd,
-ol,
-ul,
-li,
-fieldset,
-form,
-label,
-legend,
-table,
-caption,
-tbody,
-tfoot,
-thead,
-tr,
-th,
-td {
-	margin: 0;
-	padding: 0
-}
 
-body,
-button,
-input,
-select,
-textarea {
-	font-size: 12px;
-	font-family: "Microsoft yahei", Arial, Tahoma, "宋体";
-	color: #666
-}
 
-button,
-input,
-select,
-textarea,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-	font-size: 100%
-}
 
-button,
-input,
-select,
-textarea,
-label {
-	margin: 0;
-	padding: 0;
-	vertical-align: middle;
-	outline: none
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-	font-weight: normal
-}
-
-/* a{color:#666;text-decoration:none;outline:0;blr:expression(this.onFocus=this.blur());} */
-a:hover {
-	color: #08c;
-	text-decoration: none;
-	-webkit-transition: all .5s ease-in-out;
-	-moz-transition: all .5s ease-in-out;
-	-o-transition: all .5s ease-in-out;
-	transition: all .5s ease-in-out;
-}
 
 em {
 	font-style: normal
@@ -168,25 +42,6 @@ strong {
 	color: #333
 }
 
-:-moz-placeholder {
-	color: #999;
-	font-size: 12px;
-}
-
-::-moz-placeholder {
-	color: #999;
-	font-size: 12px;
-}
-
-::-webkit-input-placeholder {
-	color: #999;
-	font-size: 12px;
-}
-
-:-ms-input-placeholder {
-	color: #999;
-	font-size: 12px;
-}
 
 /* 公共样式 */
 .cl {
