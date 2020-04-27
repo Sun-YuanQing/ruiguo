@@ -1,135 +1,9 @@
-@charset "utf-8";
 
-*html {
-	background-image: url(about:blank);
-	background-attachment: fixed
-}
 
-body {
-	margin: 0 auto;
-	padding: 0;
-	width: 100%;
-	overflow-x: hidden;
-	background: #fff;
-	font: 0.75em/12px
-}
 
-html,
-body,
-div,
-applet,
-object,
-iframe,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-blockquote,
-pre,
-a,
-abbr,
-acronym,
-address,
-big,
-cite,
-code,
-del,
-dfn,
-em,
-font,
-img,
-ins,
-kbd,
-q,
-s,
-samp,
-small,
-strike,
-strong,
-sub,
-sup,
-tt,
-var,
-u,
-i,
-center,
-dl,
-dt,
-dd,
-ol,
-ul,
-li,
-fieldset,
-form,
-label,
-legend,
-table,
-caption,
-tbody,
-tfoot,
-thead,
-tr,
-th,
-td {
-	margin: 0;
-	padding: 0
-}
 
-body,
-button,
-input,
-select,
-textarea {
-	font-size: 12px;
-	font-family: "Microsoft yahei", Arial, Tahoma, "宋体";
-	color: #666
-}
 
-button,
-input,
-select,
-textarea,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-	font-size: 100%
-}
 
-button,
-input,
-select,
-textarea,
-label {
-	margin: 0;
-	padding: 0;
-	vertical-align: middle;
-	outline: none
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-	font-weight: normal
-}
-
-/* a{color:#666;text-decoration:none;outline:0;blr:expression(this.onFocus=this.blur());} */
-a:hover {
-	color: #08c;
-	text-decoration: none;
-	-webkit-transition: all .5s ease-in-out;
-	-moz-transition: all .5s ease-in-out;
-	-o-transition: all .5s ease-in-out;
-	transition: all .5s ease-in-out;
-}
 
 em {
 	font-style: normal
@@ -168,25 +42,6 @@ strong {
 	color: #333
 }
 
-:-moz-placeholder {
-	color: #999;
-	font-size: 12px;
-}
-
-::-moz-placeholder {
-	color: #999;
-	font-size: 12px;
-}
-
-::-webkit-input-placeholder {
-	color: #999;
-	font-size: 12px;
-}
-
-:-ms-input-placeholder {
-	color: #999;
-	font-size: 12px;
-}
 
 /* 公共样式 */
 .cl {
@@ -1065,10 +920,10 @@ h6 {
 	color: #666;
 }
 
-#header .search .hot-search a:hover {
+/* #header .search .hot-search a:hover {
 	color: #1386c1;
 	border-bottom: #1386c1 1px dashed;
-}
+} */
 
 #header .menu {
 	width: 100%;
@@ -1172,11 +1027,11 @@ h6 {
 	background: url(../images/icon.png) no-repeat 0 -247px;
 }
 
-#header .i-menu ul .mainlevel li a:hover {
+/* #header .i-menu ul .mainlevel li a:hover {
 	color: #09c;
 	border-bottom: 1px dashed #09c;
 	background: url(../images/icon.png) no-repeat 0 -282px;
-}
+} */
 
 #header .i-menu ul .mainlevel li a i {
 	margin: 0 0 0 5px;
@@ -2160,11 +2015,11 @@ h6 {
 	height: 15px;
 	background: url(../images/icon.png) no-repeat 0 -253px
 }
-
-.case-list li a:hover {
+/* 影响我的 */
+/* .case-list li a:hover {
 	line-height: 29px;
 	border-bottom: 1px dashed #08c;
-}
+} */
 
 .case-list li:hover>span {
 	background: url(../images/icon.png) no-repeat 0 -288px
@@ -3309,13 +3164,13 @@ ul.doctors-list li.doctors-list-more {
 	overflow: hidden;
 }
 
-.content-detail .content-detail-list li {
+/* .content-detail .content-detail-list li {
 	margin: 0 0 15px;
 	padding: 0 0 15px;
 	width: 100%;
 	border-bottom: #eee 1px dashed;
 	overflow: hidden;
-}
+} */
 
 .content-detail .content-detail-list img {
 	float: left;
@@ -3338,10 +3193,10 @@ ul.doctors-list li.doctors-list-more {
 	font-size: 14px;
 }
 
-a.tag {
+/* a.tag {
 	color: #444;
 	border-bottom: 1px dashed #ccc;
-}
+} */
 
 a.tag:hover {
 	color: #fff;
@@ -3615,13 +3470,13 @@ a.tag:hover {
 	background: url(../images/icon.png) no-repeat 0 -570px;
 }
 
-.search-list dd:hover {
+/* .search-list dd:hover {
 	border-bottom: #24abe9 1px dashed;
 	-webkit-transition: all .5s ease-in-out;
 	-moz-transition: all .5s ease-in-out;
 	-o-transition: all .5s ease-in-out;
 	transition: all .5s ease-in-out;
-}
+} */
 
 .search-list dd:hover>a {
 	color: #24abe9;
@@ -3650,10 +3505,10 @@ a.tag:hover {
 	color: #888;
 }
 
-.search-result dd a:hover {
+/* .search-result dd a:hover {
 	color: #24abe9;
 	border-bottom: #24abe9 1px dashed;
-}
+} */
 
 /*TAG*/
 .tag-list dd {
@@ -3665,13 +3520,13 @@ a.tag:hover {
 	font-size: 14px;
 }
 
-.tag-list dd:hover {
+/* .tag-list dd:hover {
 	border-bottom: #24abe9 1px dashed;
 	-webkit-transition: all .5s ease-in-out;
 	-moz-transition: all .5s ease-in-out;
 	-o-transition: all .5s ease-in-out;
 	transition: all .5s ease-in-out;
-}
+} */
 
 .tag-list dd:hover>a {
 	color: #24abe9;
@@ -3697,10 +3552,10 @@ a.tag:hover {
 	color: #666;
 }
 
-.tip-box span {
+/* .tip-box span {
 	color: #b13a76;
 	border-bottom: #b13a76 1px dashed;
-}
+} */
 
 /*底部样式*/
 .foot {
@@ -3983,10 +3838,10 @@ a.tag:hover {
 	color: #46b0e5
 }
 
-.np li a:hover {
+/* .np li a:hover {
 	color: #1880b1;
 	border-bottom: 1px dashed #e1e1e1;
-}
+} */
 
 /*列表圆点*/
 .dot_1 {
