@@ -133,7 +133,7 @@
           children_roles: 0,
           editstate: "add",
           meta: {
-            title: '标题', //i18n
+            title: '标题', 
             icon: '图标international', //international、、lock
             noCache: true, //忘了是什么先加着
             affix: false, //可以被删除标签//Roles
@@ -188,7 +188,7 @@
             children_roles: 0,
             editstate: "add",
             meta: {
-              title: '标题', //i18n
+              title: '标题', 
               icon: '图标international', //international、、lock
               noCache: true, //忘了是什么先加着
               affix: false, //可以被删除标签//Roles

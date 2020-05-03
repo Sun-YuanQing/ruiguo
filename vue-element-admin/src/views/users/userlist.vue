@@ -53,49 +53,16 @@
 
 
 
-    <div class="app">
+
+      <!-- 分页 -->
       <!-- :page-size="listQuery.limit"  改为 :limit.sync="listQuery.limit" 才不报错-->
       <el-pagination v-show="total > 0" style="margin-top: 1rem;" @size-change="onPageSizeChange" @current-change="onPageNumderChange"
         :page-sizes="[3,10, 20, 30, 50]" :limit.sync="listQuery.limit" :current-page="2" background layout="total, sizes, prev, pager, next, jumper"
         :total="listQuery.total">
       </el-pagination>
-      <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-        <el-upload class="avatar-uploader" action="upload" :headers="{ 'Content-Type': 'multipart/form-data' }"
-          :show-file-list="false" :auto-upload="true" :http-request="uploadFile" :on-success="handleAvatarSuccess"
-          :before-upload="beforeAvatarUpload">
-          <div class="components-container">
-            上传图片
-            <pan-thumb :image="imageUrl + temp.images" />
-          </div>
-        </el-upload>
-        <el-form ref="formData" :rules="rules" :model="temp" label-position="left" label-width="70px" style="width: 100%; margin-left:50px;">
-          <el-form-item label="排序" style="width:60%">
-            <el-input v-model="temp.sort" />
-          </el-form-item>
-          <el-form-item label="用户名称" style="width:60%">
-            <el-input v-model="temp.user_name" />
-          </el-form-item>
-          <el-form-item label="用户账号" style="width:60%">
-            <el-input v-model="temp.user_account" />
-          </el-form-item>
-          <el-form-item label="密码" style="width:60%">
-            <el-input ref="password" v-model="temp.user_password" type="password" placeholder="请输入密码" name="password" />
-          </el-form-item>
-          <el-form-item label="状态">
-            <el-tooltip :content="temp.status == 1 ? '启用' : '禁用'" placement="top">
-              <el-switch @change="onUserStatus('temp')" v-model="temp.status" active-color="#7B68EE" inactive-color="#cccccc"
-                :active-value="1" :inactive-value="2"></el-switch>
-            </el-tooltip>
-          </el-form-item>
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-          <el-button @click="dialogFormVisible = false">{{ $t('table.cancel') }}</el-button>
-          <el-button type="primary" @click="dialogStatus === 'create' ? createData() : onUserUpdata()">{{ $t('table.confirm') }}</el-button>
-        </div>
-      </el-dialog>
-      <!-- 权限 -->
+  <!-- 权限 -->
       <el-dialog :visible.sync="showTree" :title="dialogType==='edit'?'Edit Role':'New Role'">
-        <el-form :model="role" label-width="80px" label-position="left">
+        <el-form  label-width="80px" label-position="left">
 
           <el-form-item label="Menus">
             <el-button type="text" size="mini" @click="() => append({id:-1})">
@@ -130,27 +97,30 @@
           </el-button>
         </div>
       </el-dialog>
-      <!-- 创建菜单 -->
-      <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
 
-        <el-form ref="formMenu" :visible.sync="showMenu" :rules="rules" :model="menuItmen" label-position="left"
-          label-width="70px" style="width: 100%; margin-left:50px;">
+  <!-- 添加 -->
+    <el-dialog :title="textMap[dialogStatus]" :visible.sync=" dialogFormAddUser">
+         <el-upload class="avatar-uploader" action="upload" :headers="{ 'Content-Type': 'multipart/form-data' }"
+          :show-file-list="false" :auto-upload="true" :http-request="uploadFile" :on-success="handleAvatarSuccess"
+          :before-upload="beforeAvatarUpload">
+          <div class="components-container">
+            上传图片
+            <pan-thumb :image="imageUrl + temp.images" />
+          </div>
+        </el-upload>
+        <el-form ref="formAddUser" :rules="rules" :model="temp" label-position="left" label-width="70px" style="width: 100%; margin-left:50px;">
 
+          <el-form-item label="排序" style="width:60%">
+            <el-input v-model="temp.sort" />
+          </el-form-item>
           <el-form-item label="用户名称" style="width:60%">
             <el-input v-model="temp.user_name" />
           </el-form-item>
-          <el-form-item label="状态">
-            <el-tooltip :content="temp.status == 1 ? '启用' : '禁用'" placement="top">
-              <el-switch @change="onUserStatus('temp')" v-model="temp.status" active-color="#7B68EE" inactive-color="#cccccc"
-                :active-value="1" :inactive-value="2"></el-switch>
-            </el-tooltip>
+          <el-form-item label="用户账号" style="width:60%">
+            <el-input v-model="temp.user_account" />
           </el-form-item>
-        </el-form>
-        <el-form ref="formMenu" :visible.sync="showMenuRole" :rules="rules" :model="menuItmen" label-position="left"
-          label-width="70px" style="width: 100%; margin-left:50px;">
-
-          <el-form-item label="用户名称" style="width:60%">
-            <el-input v-model="temp.user_name" />
+          <el-form-item label="密码" style="width:60%">
+            <el-input ref="password" v-model="temp.user_password" type="password" placeholder="请输入密码" name="password" />
           </el-form-item>
           <el-form-item label="状态">
             <el-tooltip :content="temp.status == 1 ? '启用' : '禁用'" placement="top">
@@ -160,11 +130,54 @@
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
-          <el-button @click="showMenu = false">取消</el-button>
+          <el-button @click="dialogFormAddUser = false">{{ $t('table.cancel') }}</el-button>
+          <el-button type="primary" @click="dialogStatus === 'create' ? createData() : onUserUpdata()">{{ $t('table.confirm') }}</el-button>
+        </div>
+      </el-dialog>
+
+
+    <!-- 修改 -->
+
+ <!-- 修改 -->
+  <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
+     <el-upload class="avatar-uploader" action="upload" :headers="{ 'Content-Type': 'multipart/form-data' }"
+      :show-file-list="false" :auto-upload="true" :http-request="uploadFile" :on-success="handleAvatarSuccess"
+      :before-upload="beforeAvatarUpload">
+      <div class="components-container">
+        上传图片
+        <pan-thumb :image="imageUrl + temp.images" />
+      </div>
+    </el-upload>
+    <el-form ref="formEditUser"  :rules="rules" :model="menuItmen" label-position="left"
+          label-width="70px" style="width: 100%; margin-left:50px;">
+
+
+
+		  <el-form-item label="排序" style="width:60%">
+		    <el-input v-model="temp.sort" />
+		  </el-form-item>
+		  <el-form-item label="用户名称" style="width:60%">
+		    <el-input v-model="temp.user_name" />
+		  </el-form-item>
+		  <el-form-item label="用户账号" style="width:60%">
+		    <el-input v-model="temp.user_account" />
+		  </el-form-item>
+		  <el-form-item label="状态">
+		    <el-tooltip :content="temp.status == 1 ? '启用' : '禁用'" placement="top">
+		      <el-switch @change="onUserStatus('temp')" v-model="temp.status" active-color="#7B68EE" inactive-color="#cccccc"
+		        :active-value="1" :inactive-value="2"></el-switch>
+		    </el-tooltip>
+		  </el-form-item>
+        </el-form>
+
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="dialogFormVisible = false">取消</el-button>
           <el-button type="primary" @click="dialogStatus === 'create' ? createData() : onshowMenu()">确定</el-button>
         </div>
       </el-dialog>
-    </div>
+
+
+
   </div>
 </template>
 
@@ -174,12 +187,6 @@
 <script>
   import users from '@/api/users.js';
   import routes from '@/api/routes.js';
-  import {
-    fetchList,
-    fetchPv,
-    createArticle,
-    updateArticle
-  } from '@/api/article';
   import waves from '@/directive/waves'; // waves directive
   import {
     parseTime
@@ -257,6 +264,8 @@
 
           ]
         }, ],
+        dialogFormAddUser:false,
+
         imagecropperShow: false,
         imagecropperKey: 0,
         image: 'https://wpimg.wallstcn.com/577965b9-bb9e-4e02-9f0c-095b41417191',
@@ -399,7 +408,7 @@
             //console.log(response.data.access_token);
             console.log(response);
 
-            let list = response.data.items;
+            let list = response.data;
             for (var i in list) {
               var str = list[i].images;
               console.log(str)
@@ -411,7 +420,7 @@
             that.list = list;
 
 
-            that.listQuery = response.data;
+            that.listQuery = response;
             that.listLoading = false;
           })
           .catch(function(error) {
@@ -459,9 +468,9 @@
       onAddUser() {
         this.resetTemp();
         this.dialogStatus = 'create';
-        (this.dialogFormVisible = true),
+        (this.dialogFormAddUser = true),
         this.$nextTick(() => {
-          this.$refs['dataForm'].clearValidate();
+          this.$refs['formAddUser'].clearValidate();
         });
       },
       createData() {
@@ -487,10 +496,9 @@
         this.temp = Object.assign({}, row); // copy obj
         console.log(row);
         this.dialogStatus = 'update';
-        this.dialogFormVisible = true;
-
+        (this.dialogFormVisible = true),
         this.$nextTick(() => {
-          this.$refs['dataForm'].clearValidate();
+          this.$refs['formEditUser'].clearValidate();
         });
       },
       onUserUpdata() {
@@ -548,40 +556,9 @@
           this.dialogPvVisible = true;
         });
       },
-      handleDownload() {
-        this.downloadLoading = true;
-        import('@/vendor/Export2Excel').then(excel => {
-          const tHeader = ['timestamp', 'title', 'type', 'importance', 'status'];
-          const filterVal = ['timestamp', 'title', 'type', 'importance', 'status'];
-          const data = this.formatJson(filterVal);
-          excel.export_json_to_excel({
-            header: tHeader,
-            data,
-            filename: 'table-list'
-          });
-          this.downloadLoading = false;
-        });
-      },
-      formatJson(filterVal) {
-        return this.list.map(v =>
-          filterVal.map(j => {
-            if (j === 'timestamp') {
-              return parseTime(v[j]);
-            } else {
-              return v[j];
-            }
-          })
-        );
-      },
       getSortClass: function(key) {
         const sort = this.listQuery.sort;
         return sort === `+${key}` ? 'ascending' : 'descending';
-      },
-      cropSuccess(resData) {
-        console.log(resData);
-        this.imagecropperShow = false;
-        this.imagecropperKey = this.imagecropperKey + 1;
-        this.image = resData.files.avatar;
       },
       close() {
         this.imagecropperShow = false;
