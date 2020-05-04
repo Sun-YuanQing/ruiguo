@@ -6,7 +6,7 @@ Vue.use(Router)
 /* Layout */
 import Layout from '@/layout'
 import users from './modules/users'
-import routerRoutes from './modules/routerRoutes'
+import systemRelated from './modules/systemRelated'
 //import componentsRouter from './modules/components.js'
 
 /**
@@ -37,7 +37,7 @@ import routerRoutes from './modules/routerRoutes'
  */
 export const constantRoutes = [
   //componentsRouter,
-  routerRoutes,
+  systemRelated,
   users,
   {
     path: '/redirect',

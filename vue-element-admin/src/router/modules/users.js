@@ -8,7 +8,7 @@ const tableRouter = {
   redirect: '/userlist',
   name: 'user',  //换成英文 i18n就不会警告
   meta: {
-    title: '用户',
+    title: 'user',
     icon: 'table'
   },
   children: [

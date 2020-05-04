@@ -97,7 +97,7 @@
   import routes from '@/api/routes.js';
   export default {
 
-    name: 'ComplexTable',
+    name: 'menuPermissions',
     components: {
 
     },

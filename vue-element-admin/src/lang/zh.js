@@ -1,6 +1,9 @@
 export default {
   route: {
-    userlist:'用户表',
+    user:'用户',
+    userlist:'用户列表',
+    systemRelated:'系统相关',
+    menuPermissions:'菜单权限',
     dashboard: '首页',
     documentation: '文档',
     guide: '引导页',
