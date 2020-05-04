@@ -1,5 +1,4 @@
 <template>
-
   <div class="app-container">
     <div class="filter-container">
       <el-input v-model="listQuery.user_name" placeholder="用户名称" style="width: 20%;" class="filter-item"
@@ -7,7 +6,7 @@
       <el-input v-model="listQuery.user_account" placeholder="用户账号" style="width: 20%;" class="filter-item"
         @keyup.enter.native="handleFilter" />
 
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>
+      <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>
       <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="onAddUser">添加</el-button>
     </div>
     <el-table :key="tableKey" v-loading="listLoading" :data="list" border fit highlight-current-row style="width: 100%;margin-top:30px;"
@@ -187,27 +186,23 @@
 <script>
   import users from '@/api/users.js';
   import routes from '@/api/routes.js';
-  import waves from '@/directive/waves'; // waves directive
   import {
     parseTime
   } from '@/utils';
   import Pagination from '@/components/Pagination'; // secondary package based on el-pagination
 
-  import ImageCropper from '@/components/ImageCropper';
   import PanThumb from '@/components/PanThumb';
 
   import axios from 'axios';
   var id = 100;
   export default {
 
-    name: 'ComplexTable',
+    name: 'userlist',
     components: {
       Pagination,
-      ImageCropper,
       PanThumb
     },
     directives: {
-      waves
     },
     filters: {
 

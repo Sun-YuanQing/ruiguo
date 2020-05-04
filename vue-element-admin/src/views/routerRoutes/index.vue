@@ -1,10 +1,7 @@
 <template>
   <div style="padding: 25px;">
     <el-tabs type="border-card">
-      <!-- <el-tab-pane>
-        <span slot="label"><i class="el-icon-date"></i> 我的行程</span>
-        我的行程
-      </el-tab-pane> -->
+<!-- 添加菜单 -->
       <el-tab-pane label="添加菜单">
         <!-- 权限 -->
         <el-button type="text" size="mini" @click="() => onAddTree(data=null,type=0)">
@@ -31,11 +28,8 @@
         </el-tree>
       </el-tab-pane>
 
-      
     </el-tabs>
-    <!--    <template>
-      <el-button type="text" @click="open">点击打开 Message Box</el-button>
-    </template> -->
+
     <el-dialog title="菜单" :visible.sync="showEditTree">
       <el-form ref="formData" :model="tempMenu" label-position="left" label-width="70px" style="width: 100%; margin-left:50px;">
         <el-form-item label="url路径" label-width="20%" style="width:80%">
@@ -82,7 +76,7 @@
         <el-button type="primary" @click="onAddMenu()">确定</el-button>
       </div>
     </el-dialog>
-    <el-dialog title="菜单" :visible.sync="showEditRoles">
+    <el-dialog title="权限" :visible.sync="showEditRoles">
       <el-form ref="formData" :model="tempRoles" label-position="left" label-width="70px" style="width: 100%; margin-left:50px;">
 
         <el-form-item label="权限名称" label-width="20%" style="width:80%">
@@ -133,7 +127,7 @@
           children_roles: 0,
           editstate: "add",
           meta: {
-            title: '标题', 
+            title: '标题',
             icon: '图标international', //international、、lock
             noCache: true, //忘了是什么先加着
             affix: false, //可以被删除标签//Roles
@@ -188,7 +182,7 @@
             children_roles: 0,
             editstate: "add",
             meta: {
-              title: '标题', 
+              title: '标题',
               icon: '图标international', //international、、lock
               noCache: true, //忘了是什么先加着
               affix: false, //可以被删除标签//Roles

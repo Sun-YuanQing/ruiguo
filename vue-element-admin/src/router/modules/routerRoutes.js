@@ -5,7 +5,7 @@ import Layout from '@/layout'
 const routerRoutes = {
   path: '/routerRoutes',
   component: Layout,
-  name: '系统相关',
+  name: '系统相关',  //换成英文 i18n就不会警告
   meta: {
     title: '系统相关',
     icon: 'table'
@@ -14,7 +14,7 @@ const routerRoutes = {
     {
       path: 'index',
       component: () => import('@/views/routerRoutes/index'),
-      name: '系统菜单/权限',
+      name: '系统菜单/权限',  //换成英文 i18n就不会警告
       meta: { title: '系统菜单/权限', icon: 'table'}
     }
   ]

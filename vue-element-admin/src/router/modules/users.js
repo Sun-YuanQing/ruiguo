@@ -6,7 +6,7 @@ const tableRouter = {
   path: '/',
   component: Layout,
   redirect: '/userlist',
-  name: '用户',
+  name: 'user',  //换成英文 i18n就不会警告
   meta: {
     title: '用户',
     icon: 'table'
@@ -15,8 +15,8 @@ const tableRouter = {
     {
       path: 'userlist',
       component: () => import('@/views/users/userlist'),
-      name: '用户列表',
-      meta: { title: '用户列表' ,affix: true }
+      name: 'userlist',  //缓存组件的名称，当这个路由name名称匹配到同名的组件名称keep-alive就会缓存。
+      meta: { title: 'userlist' ,affix: true } //换成英文 i18n就不会警告，通过lang的router翻译，体现在浏览器title和系统标签
     }
   ]
 }

@@ -3,10 +3,6 @@ import {
   constantRoutes
 } from '@/router'
 import {
-  asyncServeRoutes,
-  constantServeRoutes
-} from '@/router/serveRouter'
-import {
   listRoutes
 } from '@/api/user.js'
 import components from '@/components/components'
